@@ -54,6 +54,43 @@ const Dp = () => {
       });
   }, []);
 
+
+  const handleupdate=(link)=>{
+    const obj = {
+      "username" : username,
+      "linkResponseDto" : link 
+    }    
+    axios.put("http://192.168.0.106:8080/user/auth/update-visited",obj )
+    .then((response) => {
+      console.log(response);
+    })
+    .catch(error => {
+      console.log(error);
+    })
+
+  }
+
+
+
+
+  const handleupdateotherlink=(link)=>{
+    const obj = {
+      "username" : username,
+      "otherLinkResponseDto" : link 
+    }
+
+    axios.put("http://192.168.0.106:8080/user/auth/update-visited",obj )
+    .then((response) => {
+      console.log(response);
+    })
+    .catch(error => {
+      console.log(error);
+    })
+
+  
+
+  }
+
   const renderSocialMediaIcon = (socialMedia) => {
     switch (socialMedia) {
       case "Facebook":
@@ -191,13 +228,13 @@ const Dp = () => {
           </div>
 
           <div className="card-div-dp">
-            <div className="social-container-dp">
+            <div className="social-container-dp" >
               {listoflinks.map((link) => (
                 <a
                   className="social-icon-dp"
                   key={link.index}
                   target="_blank"
-                  href={link.link}
+                  href={link.link} onClick={() => handleupdate(link)}
                 >
                   {renderSocialMediaIcon(link.name)}
                 </a>
@@ -215,7 +252,7 @@ const Dp = () => {
             {listofotherlinks.map((link, index) => (
               <div key={index}>
                 <div className="card-bar-dp">
-                  <a
+                  <a onClick={() => handleupdateotherlink(link)}
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"

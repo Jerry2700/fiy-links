@@ -232,9 +232,9 @@ border: 1px solid rgba(255, 255, 255, 0.25);
 
   .product-section {
     display: grid;
-    grid-template-columns: repeat(2, 0.5fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 1fr;
-    grid-column-gap: 15px;
+   
     grid-row-gap: 20px;
     }
   
@@ -242,4 +242,5 @@ border: 1px solid rgba(255, 255, 255, 0.25);
 
 
 
-  
+    
+     

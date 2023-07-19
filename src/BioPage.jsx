@@ -25,7 +25,7 @@ import template3 from '../public/template3.png';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import { CardActionArea } from '@mui/material';
+import {  CardActionArea, CardActions } from '@mui/material';
 import img2 from "../public/socialmedia.jpg";
 
 
@@ -108,7 +108,7 @@ function Tabs() {
   const [producturl, setproducturl] = useState("");
   const [productname, setproductname] = useState("");
   const [productvideo, setproductvideo] = useState("");
-  const [productimage, setproductimage] = useState("");
+  const [productimage, setproductimage] = useState();
   const [productdata,setproductdata]=useState([]);
 
 
@@ -1005,7 +1005,7 @@ function Tabs() {
 
 <TextField
                 fullWidth
-                label="Product Video Url "
+                label="Product Your Youtube Video Link "
                 
                 id="fullWidth"
                 style={{
@@ -1209,24 +1209,23 @@ function Tabs() {
     
     <div key={index}>
       
-      <Card sx={{ maxWidth: 345 }}>
-<CardActionArea style={{width:'5vw'}}>
-<CardMedia
-component="img"
-height="140"
-image={img2} style={{width:'7vw',height:'5vh'}}
-alt="green iguana"
-/>
-<CardContent>
-<Typography gutterBottom variant="h5" component="div">
-{product.productName}
-</Typography>
-
-</CardContent>
-</CardActionArea>
-</Card>
+      <Card sx={{ display: 'flex',flexDirection: 'column',marginLeft:'2vw',marginRight:'2vw' }}>
+    <CardMedia
+      component="img"
+      image={(product.productImage) ? ("http://192.168.0.106:8080/user/auth/get-product-image/" + product.productImage) : (img2)} 
+      alt="Live from space album cover" 
+    /> 
+    <span style={{alignSelf:'center'}}> <b> {product.productName} </b></span>
+  </Card>
     </div>
   ))}
+    
+
+
+
+
+
+
 
    
 

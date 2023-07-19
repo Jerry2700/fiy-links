@@ -144,7 +144,7 @@ const usernamecheck=()=>{
 
 
   return (
-    <div className="container-login">
+    <div className="container-login" >
       <div className="forms-container">
         <div className="signin-signup">
           <form action="#" className="sign-in-form">
@@ -217,9 +217,9 @@ const usernamecheck=()=>{
         </div>
       </div>
 
-      <div className="panels-container">
-        <div className="panel left-panel">
-          <div className="content-login">
+      <div className="panels-container" style={{overflow:'hidden'}}>
+        <div className="panel left-panel" >
+          <div className="content-login" >
             <h3>New here ?</h3>
             <p>Choose your FIY-Link username. You can always change it later.</p>
             <button className="btn transparent" id="sign-up-btn" onClick={handleSignUp}  >
@@ -228,8 +228,8 @@ const usernamecheck=()=>{
           </div>
           <img src={img} className="image" alt="Sign In" />
         </div>
-        <div className="panel right-panel">
-          <div className="content-login">
+        <div className="panel right-panel " >
+          <div className="content-login" >
             <h3>One of us ?</h3>
             <p>Choose Your FIY-Link username. You can always change it later.</p>
             <button className="btn transparent" id="sign-in-btn" onClick={handleSignIn} >
