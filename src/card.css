@@ -93,12 +93,6 @@ border: 1px solid rgba(255, 255, 255, 0.25);
     background: rgb(88, 147, 241);
   }
   
-  
-  
-  button {
-    border: none;
-    
-  }
   .content-tabs {
     flex-grow : 1;
   }

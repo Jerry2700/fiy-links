@@ -24,11 +24,7 @@ export const Card = ({ className, overlapGroupClassName }) => {
           <div className="identifier-number">Identifier number</div>
         </div>
       </div>
-      <img
-        className="basket"
-        alt="Basket"
-        src="https://generation-sessions.s3.amazonaws.com/342598c3d7d2a185d6318fb5c89fed72/img/basket-17@2x.png"
-      />
+      
     </div>
   );
 };

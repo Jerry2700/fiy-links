@@ -1,16 +1,16 @@
 .card {
-    height: 205px;
+    height: 120px;
     position: relative;
-    width: 151px;
+    width: 96px;
   }
   
   .card .overlap-group {
     background-image: url(https://generation-sessions.s3.amazonaws.com/342598c3d7d2a185d6318fb5c89fed72/img/bg-13.svg);
     background-size: 100% 100%;
-    height: 135px;
-    left: -7px;
+    height: 130px;
+    left: -4px;
     position: absolute;
-    top: -5px;
+    top: -4px;
     width: 112px;
   }
   

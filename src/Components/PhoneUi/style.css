@@ -2,23 +2,17 @@
   background-color: transparent;
   display: flex;
   justify-content: flex-end;
-  margin-top: 120px;
-  width: 100%;
-  height: 100vh;
-
+  margin-top: 10px;
+  margin-left: 20px;
+  height: 100%;
 }
 
-
-.box .phone-UI {
-  height: 800px;
-  left: 0;
-  width: 455px;
-}
 
 .box .overlap-2 {
-  height: 800px;
+  padding: 4px 2px;
+  height: 585px;
   position: relative;
-  width: 457px;
+  width: 357px;
 }
 
 .box .preview {
@@ -31,13 +25,13 @@
   display: flex;
   flex-direction: column;
   gap: 40px;
-  height: 780px;
+  height: 585px;
   justify-content: space-around;
   left: 0;
   overflow: hidden;
   padding: 56px 24px 24px;
   top: 0;
-  width: 443px;
+  width: 343px;
 }
 
 .box .menu {
@@ -45,8 +39,8 @@
   left: 24px;
   mix-blend-mode: luminosity;
   position: absolute;
-  top: 24px;
-  width: 382px;
+  top: 17px;
+  width: 295px;
 }
 
 .box .content {
@@ -68,9 +62,9 @@
 
 .box .PFP {
   height: 100px;
-  left: 0;
+  left: 7px;
   position: absolute;
-  top: 0;
+  top: -12px;
   width: 100px;
 }
 
@@ -104,14 +98,14 @@
   letter-spacing: 2.64px;
   line-height: normal;
   position: absolute;
-  top: -1px;
+  top: -19px;
 }
 
 .box .badge-user-normal {
   height: 16px;
   left: 172px;
   position: absolute;
-  top: 6px;
+  top: -12px;
   width: 16px;
 }
 
@@ -120,7 +114,7 @@
   left: 139px;
   mix-blend-mode: luminosity;
   position: absolute;
-  top: 56px;
+  top: 36px;
   width: 176px;
 }
 
@@ -137,30 +131,30 @@
   font-family: "Inter", Helvetica;
   font-size: 16px;
   font-weight: 600;
-  left: 142px;
+  left: 91px;
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
-  top: 72px;
+  top: 52px;
   white-space: nowrap;
 }
 
 .box .link {
-  -webkit-backdrop-filter: blur(4px) brightness(100%);
   align-items: center;
+  -webkit-backdrop-filter: blur(4px) brightness(100%);
   backdrop-filter: blur(4px) brightness(100%);
   background-color: #c1c1c1;
   border-radius: 100px;
   display: flex;
   height: 45px;
   justify-content: space-around;
-  left: 25px;
+  left: -4px;
   mix-blend-mode: multiply;
   overflow: hidden;
   padding: 8px;
   position: absolute;
-  top: 14px;
-  width: 341px;
+  top: 0px;
+  width: 295px;
 }
 
 .box .text-wrapper-2 {
@@ -205,9 +199,9 @@
   flex-direction: column;
   gap: 16px;
   margin-bottom: -10.5px;
-  margin-top: -10.5px;
+  margin-top: -42.5px;
   position: relative;
-  width: 100%;
+  width: 74%;
 }
 
 .box .link-2 {
@@ -220,7 +214,7 @@
   overflow: hidden;
   padding: 8px;
   position: relative;
-  width: 341px;
+  width: 300px;
 }
 
 .box .thumbnail-2 {
@@ -284,18 +278,18 @@
   font-family: "Inter", Helvetica;
   font-size: 16px;
   font-weight: 600;
-  left: 183px;
+  left: 130px;
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
-  top: 125px;
+  top: 108px;
   white-space: nowrap;
 }
 
 .box .card-variant5 {
-  left: 170px !important;
+  left: 120px !important;
   position: absolute !important;
-  top: 500px !important;
+  top: 460px !important;
 }
 
 .box .card-instance {

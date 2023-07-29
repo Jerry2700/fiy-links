@@ -15,35 +15,26 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import {useNavigate } from "react-router-dom";
-import Autocomplete from '@mui/material/Autocomplete';
-import logo from '../public/cahrger.jpg';
-import template1 from '../public/template1.png';
-import template2 from '../public/template2.png';
-import template3 from '../public/template3.png';
-
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import {  CardActionArea, CardActions } from '@mui/material';
+import { useNavigate } from "react-router-dom";
+import Autocomplete from "@mui/material/Autocomplete";
+import logo from "../public/cahrger.jpg";
+import template1 from "../public/template1.png";
+import template2 from "../public/template2.png";
+import template3 from "../public/template3.png";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import { CardActionArea, CardActions } from "@mui/material";
 import img2 from "../public/socialmedia.jpg";
-
-
-
-
 import {
   MDBCard,
   MDBCardBody,
   MDBCardTitle,
   MDBCardText,
   MDBCardImage,
-  MDBBtn
-} from 'mdb-react-ui-kit';
-
+  MDBBtn,
+} from "mdb-react-ui-kit";
 import img from "../public/defaultImage.jpg";
-
-
-
 import {
   FaFacebook,
   FaInstagram,
@@ -61,22 +52,23 @@ import {
   FaTiktok,
   FaPinterest,
 } from "react-icons/fa";
-
-const options = [ "Facebook",
-"Instagram",
-"Whatsapp",
-"Telegram",
-"Github",
-"Reddit",
-"Twitch",
-"WeChat",
-"YouTube",
-"Tumblr",
-"Medium",
-"Flickr",
-"LinkedIn",
-"TikTok",
-"Pinterest"];
+const options = [
+  "Facebook",
+  "Instagram",
+  "Whatsapp",
+  "Telegram",
+  "Github",
+  "Reddit",
+  "Twitch",
+  "WeChat",
+  "YouTube",
+  "Tumblr",
+  "Medium",
+  "Flickr",
+  "LinkedIn",
+  "TikTok",
+  "Pinterest",
+];
 
 function Tabs() {
   const [toggleState, setToggleState] = useState(1);
@@ -90,7 +82,7 @@ function Tabs() {
   const [url, setUrl] = useState("");
   const [links, setLinkss] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [formData,setFormData] = useState(null);
+  const [formData, setFormData] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedSocialMedia, setSelectedSocialMedia] = useState("");
   const [selectedLink, setSelectedLink] = useState("");
@@ -100,27 +92,17 @@ function Tabs() {
   const [name1, setName1] = useState("");
   const [about1, setAbout1] = useState("");
   const navigate = useNavigate();
-  const [template,settemplate]=useState("");
+  const [template, settemplate] = useState("");
 
-   const [value, setValue] = React.useState(options[0]);
-  const [inputValue, setInputValue] = React.useState('');
+  const [value, setValue] = React.useState(options[0]);
+  const [inputValue, setInputValue] = React.useState("");
 
   const [producturl, setproducturl] = useState("");
   const [productname, setproductname] = useState("");
   const [productvideo, setproductvideo] = useState("");
   const [productimage, setproductimage] = useState();
-  const [productdata,setproductdata]=useState([]);
-
-
-    const [open1, setOpen1] = React.useState(false);
-
-
-
-
-
-
-  
-
+  const [productdata, setproductdata] = useState([]);
+  const [open1, setOpen1] = React.useState(false);
   const data = [
     "Facebook",
     "Instagram",
@@ -138,40 +120,28 @@ function Tabs() {
     "TikTok",
     "Pinterest",
   ];
-
   const inputRef = useRef(null);
 
+  // token check
+  useEffect(() => {
+    const token = localStorage.getItem("token");
 
+    if (!token) {
+      window.location.href = "/";
+    }
+  }, []);
 
-    // token check
-        useEffect(() => {
-            const token = localStorage.getItem("token");
-            
-          if (!token) {
-             window.location.href = "/";
-            } else {
+  const handleClickOpen1 = () => {
+    setOpen1(true);
+  };
 
-            }
-          }, []);
+  const handleClose1 = () => {
+    setOpen1(false);
+  };
 
-
-
-          const handleClickOpen1 = () => {
-            setOpen1(true);
-          };
-        
-          const handleClose1 = () => {
-            setOpen1(false);
-            
-          };
-
-
-          const backgroundtemplate=()=>{
-            const imageDiv = document.getElementById('imageDiv');
-          }
-
-
-
+  const backgroundtemplate = () => {
+    const imageDiv = document.getElementById("imageDiv");
+  };
 
   const toggleTab = (index) => {
     setToggleState(index);
@@ -215,67 +185,58 @@ function Tabs() {
       });
   };
 
-
-  const handleproduct=(event)=>{
+  const handleproduct = (event) => {
     const file = event.target.files[0];
     setproductimage(file);
- 
+
     // setFormData(formData)
-
-  }
-
+  };
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setSelectedImage(URL.createObjectURL(file));
-   
-    const form = new FormData();
-    form.append('image', file);
-    setFormData(formData)
 
+    const form = new FormData();
+    form.append("image", file);
+    setFormData(formData);
 
     const token = localStorage.getItem("token");
 
+    axios
+      .post("http://192.168.0.106:8080/user/upload-image", form, {
+        headers: {
+          "content-type": "multipart/form-data",
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((response) => {
+        console.log(response);
 
-  axios.post("http://192.168.0.106:8080/user/upload-image",form,{
-    headers: {
-      "content-type": "multipart/form-data", 
-      Authorization: "Bearer " + token,
-    },
-  })
-    .then((response) => {
-      console.log(response);
-
-      if(response.data){
-        setSelectedImage("http://192.168.0.106:8080/user/auth/get-user-image/"+response.data);
-      }
-      else{
-        setSelectedImage(img);
-      }
-      // setSelectedImage(response.data);
-      // Handle the response
-
-    })
-    .catch((error) => {
-      console.log(error);
-      // Handle the error
-    });
-
-
+        if (response.data) {
+          setSelectedImage(
+            "http://192.168.0.106:8080/user/auth/get-user-image/" +
+              response.data
+          );
+        } else {
+          setSelectedImage(img);
+        }
+        // setSelectedImage(response.data);
+        // Handle the response
+      })
+      .catch((error) => {
+        console.log(error);
+        // Handle the error
+      });
   };
 
-
-  const addproductlink=()=>{
-
+  const addproductlink = () => {
     const token = localStorage.getItem("token");
 
-   
-
     const form = new FormData();
-    form.append("productImage",productimage);
-    form.append("productName",productname);
-    form.append("productUrl",producturl);
-    form.append("productVideo",productvideo);
+    form.append("productImage", productimage);
+    form.append("productName", productname);
+    form.append("productUrl", producturl);
+    form.append("productVideo", productvideo);
 
     axios
       .post("http://192.168.0.106:8080/user/add-product", form, {
@@ -284,24 +245,15 @@ function Tabs() {
           Authorization: "Bearer " + token,
         },
       })
-      .then((response) => { 
+      .then((response) => {
         console.log(response);
-       
-        setproductdata(response.data);
-         
-        
 
+        setproductdata(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  
-
-
-  
-
-  
 
   useEffect(() => {
     if (username === "") {
@@ -326,13 +278,14 @@ function Tabs() {
         setListOfOtherLinks(response.data.listOfOtherLinks);
         setAbout(response.data.bio);
         setproductdata(response.data.listOfProducts);
-        if(response.data.image){
-          setSelectedImage("http://192.168.0.106:8080/user/auth/get-user-image/"+response.data.image);
-        }
-        else{
+        if (response.data.image) {
+          setSelectedImage(
+            "http://192.168.0.106:8080/user/auth/get-user-image/" +
+              response.data.image
+          );
+        } else {
           setSelectedImage(img);
         }
-
       })
       .catch((error) => {
         console.log("error...");
@@ -340,11 +293,8 @@ function Tabs() {
   };
 
   const handlesubmit = () => {
-   
-
     navigate(`/${username}`);
-
-  }
+  };
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -431,41 +381,23 @@ function Tabs() {
       });
   };
 
-
-
-
-
-
-
-  const deleteProduct=(product)=>{
-
+  const deleteProduct = (product) => {
     const token = localStorage.getItem("token");
     axios
-    .post(
-      "http://192.168.0.106:8080/user/delete-product",
-      product,
-      {
+      .post("http://192.168.0.106:8080/user/delete-product", product, {
         headers: {
           "content-type": "application/json",
           Authorization: "Bearer " + token,
         },
-      }
-    )
-    .then((response) => {
-      console.log(response);
-      setproductdata(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
-  }
-
-
-
-
-
-
+      })
+      .then((response) => {
+        console.log(response);
+        setproductdata(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const removeLink = (index) => {
     const updatedLinks = [...links];
@@ -486,16 +418,13 @@ function Tabs() {
       const updatedSocialMedia = {
         name: selectedSocialMedia,
         icon: renderSocialMediaIcon(selectedSocialMedia),
-        link: selectedLink
+        link: selectedLink,
       };
       setsocial((prevSocial) => [...prevSocial, updatedSocialMedia]);
       setSelectedSocialMedia("");
       setSelectedLink("");
       setValue("");
-      
-      
     }
-    
 
     const token = localStorage.getItem("token");
 
@@ -513,8 +442,6 @@ function Tabs() {
       .then((response) => {
         console.log(response.data);
         setListOfLinks(response.data);
-        
-        
       })
       .catch((error) => {
         console.log(error);
@@ -562,17 +489,14 @@ function Tabs() {
 
   const signout = () => {
     localStorage.removeItem("token");
-    navigate('/');
+    navigate("/");
   };
 
-  const handlesocialmediatextchange=()=>{
-    
-  }
- 
+//  const handlesocialmediatextchange = () => {};
 
   return (
     <>
-    <div className="navbar-bio" >
+      <div className="navbar-bio">
         <Box sx={{ flexGrow: 1 }} className="navbar-admin">
           <AppBar
             className="App-bar"
@@ -584,155 +508,183 @@ function Tabs() {
               WebkitBackdropFilter: "blur(11.4px)",
             }}
           >
-            
-          
             <Toolbar>
               <Typography
                 variant="h6"
                 component="div"
                 sx={{ flexGrow: 1 }}
-                style={{ color: "black", fontSize: "5vh" }} 
+                style={{ color: "black", fontSize: "5vh" }}
               ></Typography>
 
-
-
-
-<span className="template" style={{marginRight:'1vw'}} >
-<div>
-      <Button variant="contained" onClick={handleClickOpen1}>
-       Apperance
-      </Button>
-      <Dialog 
-        open={open1}
-        onClose={handleClose1}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Customize Your FIY Link"}
-        </DialogTitle>
-        <DialogContent>
-        <div class="parent-templates">
-          <div className="first-templates">
-          <img src={template1} alt="" id height={100} width={100} 
-          onClick="settemplate('path/to/template1.jpg')"/>
-          </div>
-          <div className="second-templates">
-          <img src={template2} alt=""  height={100} width={100}
-          onClick="settemplate('path/to/template2.jpg')"/>
-            
-          </div>
-          <div className="third-templates">
-          <img src={template3} alt="" height={100} width={100} 
-          onClick="settemplate('path/to/template3.jpg')"/>`
-            
-          </div>
-
-</div>
-            <DialogContentText id="alert-dialog-description">
-            
-
-            <p className="Color-biopage-background">Change Your Background</p>
-               <div className="button-container-bio" style={{backgroundColor:'white'}}>  <br />
-                <button className="btn-1" style={{backgroundColor:'#AAA7D4'}} onClick={() => changeColor('#AAA7D4')}>Red</button>  &nbsp; &nbsp;
-                <button className="btn-1" style={{backgroundColor:'#BFD4C7'}} onClick={() => changeColor('#BFD4C7')}>Green</button> &nbsp; &nbsp;
-                <button className="btn-1" style={{backgroundColor:'#6c757d'}} onClick={() => changeColor('#6c757d')}>Blue</button> 
+              <span className="template" style={{ marginRight: "1vw" }}>
+                <div>
+                  <Button variant="contained" onClick={handleClickOpen1}>
+                    Apperance
+                  </Button>
+                  <Dialog
+                    open={open1}
+                    onClose={handleClose1}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                  >
+                    <DialogTitle id="alert-dialog-title">
+                      {"Customize Your FIY Link"}
+                    </DialogTitle>
+                    <DialogContent>
+                      <div className="parent-templates">
+                        <div className="first-templates">
+                          <img
+                            src={template1}
+                            alt=""
+                            id
+                            height={100}
+                            width={100}
+                            onClick="settemplate('path/to/template1.jpg')"
+                          />
+                        </div>
+                        <div className="second-templates">
+                          <img
+                            src={template2}
+                            alt=""
+                            height={100}
+                            width={100}
+                            onClick="settemplate('path/to/template2.jpg')"
+                          />
+                        </div>
+                        <div className="third-templates">
+                          <img
+                            src={template3}
+                            alt=""
+                            height={100}
+                            width={100}
+                            onClick="settemplate('path/to/template3.jpg')"
+                          />
+                          `
+                        </div>
+                      </div>
+                      <DialogContentText id="alert-dialog-description">
+                        <p className="Color-biopage-background">
+                          Change Your Background
+                        </p>
+                        <div
+                          className="button-container-bio"
+                          style={{ backgroundColor: "white" }}
+                        >
+                          {" "}
+                          <br />
+                          <button
+                            className="btn-1"
+                            style={{ backgroundColor: "#AAA7D4" }}
+                            onClick={() => changeColor("#AAA7D4")}
+                          >
+                            Red
+                          </button>{" "}
+                          &nbsp; &nbsp;
+                          <button
+                            className="btn-1"
+                            style={{ backgroundColor: "#BFD4C7" }}
+                            onClick={() => changeColor("#BFD4C7")}
+                          >
+                            Green
+                          </button>{" "}
+                          &nbsp; &nbsp;
+                          <button
+                            className="btn-1"
+                            style={{ backgroundColor: "#6c757d" }}
+                            onClick={() => changeColor("#6c757d")}
+                          >
+                            Blue
+                          </button>
+                        </div>
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleClose1}>Disagree</Button>
+                      <Button onClick={handleClose1} autoFocus>
+                        Agree
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
                 </div>
+              </span>
 
-            </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose1}>Disagree</Button>
-          <Button onClick={handleClose1} autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  </span> 
+              <span className="edit-biopage-span">
+                <Button
+                  variant="contained"
+                  onClick={handleClickOpen}
+                  style={{
+                    marginRight: "1vw",
+                  }}
+                >
+                  Edit
+                </Button>{" "}
+              </span>
+              <Dialog open={open} onClose={handleClose}>
+                <DialogTitle className="edit-btn-biopage">Edit</DialogTitle>
+                <DialogContent>
+                  <span style={{ fontSize: "2vh" }}>
+                    {" "}
+                    <input type="file" onChange={handleImageChange} />{" "}
+                  </span>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Name"
+                    type="text"
+                    defaultValue={Name}
+                    fullWidth
+                    variant="standard"
+                    maxlength="19"
+                    onChange={(evt) => setNameValue(evt.target.value)}
+                  />
+                  <br /> <br />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="About"
+                    defaultValue={About}
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                    onChange={(evt) => setAbout(evt.target.value)}
+                  />
+                  <hr />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Cancel</Button>
+                  <Button onClick={handleUpdateInfo}>Submit</Button>
+                </DialogActions>
+              </Dialog>
 
-
-  
-
-
-<span className="edit-biopage-span">
-          <Button
-            variant="contained"
-            onClick={handleClickOpen} 
-            style={{
-             marginRight:'1vw',
-             
-            }}
-          >
-            Edit
-          </Button>  </span>
-          <Dialog open={open} onClose={handleClose}>
-            <DialogTitle className="edit-btn-biopage" >Edit</DialogTitle>
-            <DialogContent>
-              
-
-              <span style={{fontSize:'2vh'}} > <input type="file" onChange={handleImageChange}  /> </span> 
-
-        
-
-              <TextField 
-                autoFocus 
-                margin="dense"
-                id="name"
-                label="Name"
-                type="text"
-                defaultValue={Name}
-                fullWidth
-                variant="standard" maxlength="19"
-                onChange={(evt) => setNameValue(evt.target.value)}
-              />
-              <br /> <br />
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="About"
-                defaultValue={About}
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(evt) => setAbout(evt.target.value)}
-              /> 
-              <hr />
-              
-
-
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose}>Cancel</Button>
-              <Button onClick={handleUpdateInfo}>Submit</Button>
-            </DialogActions>
-          </Dialog> 
-
-                 
-                 <span className="signout-biopage">
-                  
-              <Button
-                color="inherit"
-                onClick={signout}  
-                style={{
-                  backgroundColor: "red",
-                  boxShadow: "4px 4px black",
-                  borderRadius: "15px",
-                }}
-              >
-                SignOut
-              </Button> </span>
+              <span className="signout-biopage">
+                <Button
+                  color="inherit"
+                  onClick={signout}
+                  style={{
+                    backgroundColor: "red",
+                    boxShadow: "4px 4px black",
+                    borderRadius: "15px",
+                  }}
+                >
+                  SignOut
+                </Button>{" "}
+              </span>
             </Toolbar>
           </AppBar>
         </Box>
-        
       </div>
 
-      
-
-      <div className="background-biopage" style={{zIndex:'0'}}>
-        <ul class="background" style={{height:'100%',width:'100%',backgroundColor:'lightyellow'}}>
+      <div className="background-biopage" style={{ zIndex: "0" }}>
+        <ul
+          className="background"
+          style={{
+            height: "100%",
+            width: "100%",
+            backgroundColor: "lightyellow",
+          }}
+        >
           <li></li>
           <li></li>
           <li></li>
@@ -746,18 +698,17 @@ function Tabs() {
         </ul>
       </div>
 
-
-
-
-      {/* sidenav  */}   
+      {/* sidenav  */}
 
       <div
         className="bio-main"
         style={{ display: "flex", flexDirection: "row", alignSelf: "center" }}
-      > 
-    
+      >
         {/* <div className="bio-card"> */}
-        <div className="container" style={{ width: "65vw",boxShadow:'5px 5px 30px  black' }}>
+        <div
+          className="container"
+          style={{ width: "65vw", boxShadow: "5px 5px 30px  black" }}
+        >
           <div className="bloc-tabs">
             <button
               className={toggleState === 1 ? "tabs active-tabs" : "tabs"}
@@ -786,47 +737,43 @@ function Tabs() {
                 toggleState === 1 ? "content  active-content" : "content"
               }
             >
+              <div>
+                <div className="autocomplete">
+                  <Autocomplete
+                    value={value}
+                    onChange={(event, newValue) => {
+                      setValue(newValue);
+                    }}
+                    selectedSocialMedia={inputValue}
+                    onInputChange={(event, newInputValue) => {
+                      setSelectedSocialMedia(newInputValue);
+                    }}
+                    id="controllable-states-demo"
+                    options={data}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Social Media Name"
+                        className="autocomplete-field"
+                        style={{
+                          marginLeft: "7.5vw",
+                          width: "29.1vw",
+                          marginTop: "4vh",
+                        }}
+                        value={data}
+                      />
+                    )}
+                  />{" "}
+                </div>
+              </div>
 
-             <div>
-
-              
-              
-      
-
-        <div className="autocomplete" >
-      <Autocomplete
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
-        selectedSocialMedia={inputValue}
-        onInputChange={(event, newInputValue) => {
-          setSelectedSocialMedia(newInputValue);
-        }}
-        id="controllable-states-demo"
-        options={data}
-        
-        renderInput={(params) => <TextField {...params} label="Social Media Name"   className="autocomplete-field"
-        style={{marginLeft:'7.5vw',width:'29.1vw', marginTop: "4vh",}}
-         value={data}
-         
-         />}
-      />   </div>
-    </div>
-
-
-
-
-              
-              <br />  
-
+              <br />
 
               <TextField
                 fullWidth
                 label=" Social Media Url"
                 id="fullWidth"
                 value={selectedLink}
-                
                 style={{
                   width: "70%",
                   marginRight: "10%",
@@ -834,26 +781,25 @@ function Tabs() {
                   marginBottom: "5vh",
                   marginTop: "1.8vh",
                 }}
-                onChange={(evt) =>
-                  setSelectedLink(evt.target.value)}
-
+                onChange={(evt) => setSelectedLink(evt.target.value)}
               />
               <span className="social-btn">
-              <Button
-                variant="contained" 
-                color="success"
-                style={{
-                  backgroundColor: "green",
-                  width: "20%",
-                  marginBottom: 20,
-                  borderRadius: 10,
-                  marginLeft: "17vw",
-                }}
-                onClick={handleAddButtonClick}
-              >
-                Add
-              </Button> </span>
-              
+                <Button
+                  variant="contained"
+                  color="success"
+                  style={{
+                    backgroundColor: "green",
+                    width: "20%",
+                    marginBottom: 20,
+                    borderRadius: 10,
+                    marginLeft: "17vw",
+                  }}
+                  onClick={handleAddButtonClick}
+                >
+                  Add
+                </Button>{" "}
+              </span>
+
               <div className="links-container">
                 {listOfLinks.map((link, index) => (
                   <div key={index} className="links-div">
@@ -909,22 +855,22 @@ function Tabs() {
                 }}
                 onChange={handleUrlChange}
               />
-                 <span className="social-btn">
-              <Button
-                variant="contained"
-                color="success"  className="other-link-btn-bio"
-                style={{
-            
-                  width: "20%",
-                  marginBottom: 20,
-                  borderRadius: 10,
-                  marginLeft: "17vw",
-                }}
-                onClick={addLink}
-              >
-                Add
-              </Button>    </span>
-              
+              <span className="social-btn">
+                <Button
+                  variant="contained"
+                  color="success"
+                  className="other-link-btn-bio"
+                  style={{
+                    width: "20%",
+                    marginBottom: 20,
+                    borderRadius: 10,
+                    marginLeft: "17vw",
+                  }}
+                  onClick={addLink}
+                >
+                  Add
+                </Button>{" "}
+              </span>
 
               <div className="links-container">
                 {listOfOtherLinks.map((link, index) => (
@@ -952,61 +898,42 @@ function Tabs() {
                   </div>
                 ))}
               </div>
-
-
-
-              
             </div>
 
-
             {/* product  */}
-
 
             <div
               className={
                 toggleState === 3 ? "content  active-content" : "content"
               }
             >
-              
-<TextField
+              <TextField
                 fullWidth
                 label="Product Name"
-                
                 id="fullWidth"
                 style={{
                   width: "70%",
                   marginRight: "10%",
                   marginLeft: "18%",
                   marginTop: "4vh",
-               
                 }}
-                onChange={(evt) =>
-                  setproductname(evt.target.value)}
+                onChange={(evt) => setproductname(evt.target.value)}
               />
-
-
-<TextField
+              <TextField
                 fullWidth
                 label="Product Url"
-                
                 id="fullWidth"
                 style={{
                   width: "70%",
                   marginRight: "10%",
                   marginLeft: "18%",
                   marginTop: "4vh",
-                  
                 }}
-                onChange={(evt) =>
-                  setproducturl(evt.target.value)}
-              
+                onChange={(evt) => setproducturl(evt.target.value)}
               />
-
-
-<TextField
+              <TextField
                 fullWidth
                 label="Product Your Youtube Video Link "
-                
                 id="fullWidth"
                 style={{
                   width: "70%",
@@ -1015,23 +942,21 @@ function Tabs() {
                   marginTop: "4vh",
                   marginBottom: "5vh",
                 }}
-                onChange={(evt) =>
-                  setproductvideo(evt.target.value)}
-              
-              /> 
-
-
-                  
-              <input type="file" name="productimage" id="" style={{marginLeft:'7.7vw'}} 
-             onChange={handleproduct}  />  <hr />
-
-
-
-<Button
+                onChange={(evt) => setproductvideo(evt.target.value)}
+              />
+              <input
+                type="file"
+                name="productimage"
+                id=""
+                style={{ marginLeft: "7.7vw" }}
+                onChange={handleproduct}
+              />{" "}
+              <hr />
+              <Button
                 variant="contained"
-                color="success"  className="other-link-btn-bio"
+                color="success"
+                className="other-link-btn-bio"
                 style={{
-            
                   width: "20%",
                   marginBottom: 20,
                   borderRadius: 10,
@@ -1040,11 +965,8 @@ function Tabs() {
                 onClick={addproductlink}
               >
                 Add
-
-              </Button>    <br />
-
-
-
+              </Button>{" "}
+              <br />
               <div className="links-container">
                 {productdata.map((product, index) => (
                   <div key={index} className="links-div">
@@ -1071,39 +993,29 @@ function Tabs() {
                   </div>
                 ))}
               </div>
-
-
-
-
-            
- 
-                    
-             
-            
-
-              
-              </div>
-
-
-
-              
-           
-
-            
+            </div>
           </div>
           <span className="submit-biopage">
-          <Button variant="contained" color="success"   style={{backgroundColor: '#00B4D8', width: '30%',marginLeft:'16vw'}} onClick={handlesubmit}>
-                        Get Your Link
-                  </Button> </span>
+            <Button
+              variant="contained"
+              color="success"
+              style={{
+                backgroundColor: "#00B4D8",
+                width: "30%",
+                marginLeft: "16vw",
+              }}
+              onClick={handlesubmit}
+            >
+              Get Your Link
+            </Button>{" "}
+          </span>
         </div>
-        
-        <div className="bio-phone" style={{zIndex:'3'}} >
-         
-        
+
+        <div className="bio-phone" style={{ zIndex: "3" }}>
           <div
             className="bio-mainphone"
             style={{
-              marginTop:'10vh',
+              marginTop: "10vh",
               border: "2px solid black",
               height: "60vh",
               width: "15vw",
@@ -1113,80 +1025,76 @@ function Tabs() {
               overflowY: "auto",
               background: color,
               // borderRadius: '16px',
-              boxShadow: '5px 4px  black',
-              backdropFilter: 'blur(11.4px)',
-              WebkitBackdropFilter: 'blur(11.4px)',
+              boxShadow: "5px 4px  black",
+              backdropFilter: "blur(11.4px)",
+              WebkitBackdropFilter: "blur(11.4px)",
               // border: '1px solid rgba(255, 255, 255, 0.25)',
-
-                
-
-             
             }}
           >
-            <span style={{ marginLeft: "6vw",color:'black'}}>
+            <span style={{ marginLeft: "6vw", color: "black" }}>
               {" "}
-              <b> FIY-LINK </b> 
-            
+              <b> FIY-LINK </b>
             </span>
             {/* <input type="file" name="image-upload" id="image-upload"  style={{borderRadius:'50%',backgroundColor:'red',width:'10vh'}} /> */}
 
+            <div style={{ display: "flex" }}>
+              {selectedImage && (
+                <img
+                  src={selectedImage}
+                  alt="Selected"
+                  onChange={handleImageChange}
+                  style={{
+                    height: "9vh",
+                    width: "4vw",
+                    marginLeft: "0.5vw",
+                    borderRadius: "50%",
+                  }}
+                />
+              )}
 
-            <div style={{display:'flex'}}>
-            
-      {selectedImage && <img src={selectedImage} alt="Selected" onChange={handleImageChange}
-      style={{height:'9vh',width:'4vw' ,marginLeft:'0.5vw',borderRadius:'50%'}} />}
-               
-              
-                <div className="name-icons" style={{paddingLeft:'1vw'}}>
-              <div 
-                className="Name"
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  overflowWrap: "break-word",
-                  overflowY: "-moz-initial",
-                  
-                }}
-              >
-                
-                 {Name}  
-                
-
-          
+              <div className="name-icons" style={{ paddingLeft: "1vw" }}>
+                <div
+                  className="Name"
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    overflowWrap: "break-word",
+                    overflowY: "-moz-initial",
+                  }}
+                >
+                  {Name}
+                </div>
+                <div className="social-container">
+                  {listOfLinks.map((link) => (
+                    <a
+                      key={link.index}
+                      target="_blank"
+                      rel="noreferrer"
+                      href={link.link}
+                      className="social-icon-container"
+                      style={{ fontSize: "2vh", color: "black", margin: "0" }}
+                    >
+                      {renderSocialMediaIcon(link.name)}
+                    </a>
+                  ))}
+                </div>
               </div>
-              <div className="social-container">
-              {listOfLinks.map((link) => (
-                <a key={link.index} target="_blank" href={link.link} className="social-icon-container" style={{fontSize:'2vh',color:'black',margin:'0'}}>
-                  {renderSocialMediaIcon(link.name)}
-                </a>
-              ))}
-              
             </div>
-             </div>
+            <div style={{ marginLeft: "1.5vw", marginRight: "1.5vw" }}>
+              <span className="about-phone-bio">{About} </span> <hr />{" "}
+            </div>
 
-             
-             
-             
-
-             
-             
-              
-           
-              </div>
-            <div style={{marginLeft:'1.5vw',marginRight:'1.5vw'}}>
-            <span className="about-phone-bio" >{About} </span> <hr /> </div>
-
-
-            <div className="card-div" style={{flexWrap:'wrap',  overflowWrap: "break-word",
-              overflowY: "auto",}}>
-               
-           
-               {listOfOtherLinks.map((link, index) => (
-                
+            <div
+              className="card-div"
+              style={{
+                flexWrap: "wrap",
+                overflowWrap: "break-word",
+                overflowY: "auto",
+              }}
+            >
+              {listOfOtherLinks.map((link, index) => (
                 <div key={index}>
-                  
                   <div className="card-bar">
-                    
                     <a
                       href={link.url}
                       target="_blank"
@@ -1196,54 +1104,40 @@ function Tabs() {
                     </a>
                   </div>
                 </div>
-                
               ))}
-              
-
-        
             </div>
 
             <div className="product-section">
-
-{productdata.map((product, index) => (
-    
-    <div key={index}>
-      
-      <Card sx={{ display: 'flex',flexDirection: 'column',marginLeft:'2vw',marginRight:'2vw' }}>
-    <CardMedia
-      component="img"
-      image={(product.productImage) ? ("http://192.168.0.106:8080/user/auth/get-product-image/" + product.productImage) : (img2)} 
-      alt="Live from space album cover" 
-    /> 
-    <span style={{alignSelf:'center'}}> <b> {product.productName} </b></span>
-  </Card>
-    </div>
-  ))}
-    
-
-
-
-
-
-
-
-   
-
-
-</div>
-
-  
-
-
-
-
+              {productdata.map((product, index) => (
+                <div key={index}>
+                  <Card
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      marginLeft: "2vw",
+                      marginRight: "2vw",
+                    }}
+                  >
+                    <CardMedia
+                      component="img"
+                      image={
+                        product.productImage
+                          ? "http://192.168.0.106:8080/user/auth/get-product-image/" +
+                            product.productImage
+                          : img2
+                      }
+                      alt="Live from space album cover"
+                    />
+                    <span style={{ alignSelf: "center" }}>
+                      {" "}
+                      <b> {product.productName} </b>
+                    </span>
+                  </Card>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-
-       
-        
-
-
       </div>
 
       {/* </div> */}
