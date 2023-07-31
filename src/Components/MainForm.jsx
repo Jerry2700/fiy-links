@@ -16,7 +16,7 @@ export default function MainForm() {
         <div className="form-card">
           <Card />
         </div>
-        <div className=" m-7">
+        <div>
           <Box />
         </div>
       </div>

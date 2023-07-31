@@ -1,11 +1,10 @@
 import "./style.css";
 import { Input, Stack } from "@chakra-ui/react";
-import { Button, Grid } from "@nextui-org/react";
 import { GrClose } from "react-icons/gr";
 
 export default function Card() {
   return (
-    <div className=" bg-gray-200 rounded-[13px] justify-between items-center h-[541px] " id="Card">
+    <div className=" bg-gray-200 rounded-[13px] justify-between items-center h-[580px] " id="Card">
       <div className="flex justify-center gap-2 p-8">
         <button
           type="button"
@@ -30,14 +29,14 @@ export default function Card() {
       <div className="flex justify-center">
         <Stack spacing={4}>
           <Input
-            className=" w-[35vw] h-14 "
+            className=" w-[240px] sm:w-[35vw] h-14 "
             htmlSize={4}
             variant="filled"
             placeholder="          Social Media Platform"
           />
           <br />
           <Input
-            className=" w-[35vw] h-14 "
+            className="w-[240px] sm:w-[35vw] h-14 "
             htmlSize={4}
             variant="filled"
             placeholder="          Social Media Links"
@@ -46,20 +45,20 @@ export default function Card() {
       </div>
       <br />
       <div className="flex justify-center">
-        <Grid>
-          <Button size={"xl"} color="success" rounded>
+        
+          <button className=" bg-green-500 w-[14vmax] h-[40px] text-yellow-50 text-lg font-bold rounded-lg">
             ADD
-          </Button>
-        </Grid>
+          </button>
+        
       </div>
       <div className="flex justify-center">
-        <div className="flex items-center justify-between w-[27vw] h-[7.75vh] bg-zinc-400 m-3 rounded-[50px]  px-4">
+        <div className="flex items-center justify-between w-[180px] h-[40px] md:w-[27vw] md:h-[7.75vh] bg-zinc-400 m-2 rounded-[50px]  px-4">
           <h4>YouTube</h4>
           <GrClose />
         </div>
       </div>
-      <div className="flex justify-center pb-3">
-        <div className="flex items-center justify-between  w-[27vw] h-[7.75vh] bg-zinc-400 m-2 rounded-[50px]  px-4 ">
+      <div className="flex justify-center md:pb-3">
+        <div className="flex items-center justify-between w-[180px] h-[40px]  md:w-[27vw] md:h-[7.75vh] bg-zinc-400 m-2 rounded-[50px]  px-4 ">
           <h4>YouTube</h4>
           <GrClose />
         </div>
