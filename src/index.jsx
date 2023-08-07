@@ -1,9 +1,11 @@
 import  ReactDOM  from "react-dom/client";
 import App from "./App";
-// import { CookiesProvider } from "react-cookie";
-// import Login1 from "./Login1";
+import "./App.css";
+
+
+
 
 const root=ReactDOM.createRoot(document.getElementById("root"));
 root.render( 
-    <App/>
+   <App/>
   );

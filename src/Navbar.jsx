@@ -1,54 +1,316 @@
-import React, { useState } from 'react';
-import { FaBarsFaFlickr,  } from "react-icons/fa";
-import {AiFillHome} from "react-icons/ai"
-import {FcAbout} from "react-icons/fc"
-import {MdPayments} from "react-icons/md"
-import {BiLogOut} from "react-icons/bi"
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import { useNavigate } from "react-router-dom";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import axios from 'axios';
+import BasicModal from "./Loader";
+import { useState } from 'react';
 
 
 
 
-import { CSSTransition } from 'react-transition-group';
-import './navbar.css';
 
 
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
 
-  const toggleNavbar = () => {
-    setIsOpen(!isOpen);
+
+
+const Navbar = ({imagechange,name,about,signout,setNameValue,setAbout,setAbout1,setName1,about1,name1,username}) => {
+  
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate();
+  const [open, setOpen] = React.useState(false);
+  const [show,setshow]=useState(false);
+
+
+  const handleClickOpen = () => {
+    setOpen(true);
+    setAbout1(about);
+    setName1(name);
+  };
+  const handleClose = () => {
+    setAbout(about1);
+    setNameValue(name1);
+    setOpen(false);
+    
   };
 
+  const handleUpdateInfo = () => {
+    setOpen(false);
+    const token = localStorage.getItem("token");
+
+    const obj = {
+      name: name,
+      about: about,
+    };
+
+    axios
+      .post("http://192.168.0.108:8080/user/update-info", obj, {
+        headers: {
+          "content-type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((response) => {
+        setNameValue(response.data.name);
+        setAbout(response.data.about);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const handleanalytics = () => {
+    navigate("/anaytics");
+  };
+
+  const handlesubmit = () => {
+    setshow(true);
+
+    navigate(`/${username}`);
+  };
+
+  
   return (
-    <nav className={`navbar ${isOpen ? 'open' : ''}`}>
-      <div className="menu-toggle" onClick={toggleNavbar}>
-        <FaBars />
-      </div>
-      <CSSTransition in={isOpen} classNames="navbar-links" timeout={300} unmountOnExit>
-        <ul className="navbar-links">
-          <li>
-            <a href="#">
-              <FcAbout/>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <AiFillHome/> 
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <MdPayments/>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <BiLogOut />
-            </a>
-          </li>
-        </ul>
-      </CSSTransition>
-    </nav>
+    <AppBar position="static" style={{backgroundColor:'#073b4c'}}>
+    <Container maxWidth="xl">
+      <Toolbar disableGutters>
+       
+        <Typography
+          variant="h6"
+          noWrap
+          component="a"
+          href="/"
+          sx={{
+            mr: 2,
+            display: { xs: 'none', md: 'flex' },
+            fontFamily: 'monospace',
+            fontWeight: 700,
+            letterSpacing: '.3rem',
+            color: 'inherit',
+            textDecoration: 'none',
+            color:'#80ed99'
+          }}
+        >
+         FIY-LINK
+        </Typography>
+
+        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleOpenNavMenu}
+            style={{color:'white'}}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Menu 
+            id="menu-appbar"
+            anchorEl={anchorElNav}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+            open={Boolean(anchorElNav)}
+            onClose={handleCloseNavMenu}
+            sx={{
+              display: { xs: 'block', md: 'none' },
+            }} 
+          >
+            {/* {pages.map((page) => (
+              <MenuItem key={page} onClick={handleCloseNavMenu} >
+                <Typography textAlign="center" >{page}</Typography>
+              </MenuItem>
+
+
+            ))} */}
+             <MenuItem  onClick={handleCloseNavMenu}  >
+                <Typography textAlign="center" >Apperance</Typography>
+              </MenuItem>
+
+              <MenuItem onClick={handleCloseNavMenu} >
+                <Typography textAlign="center" onClick={handleanalytics} >Analytics</Typography>
+              </MenuItem>
+              
+          </Menu>
+        </Box>
+        <Typography
+          variant="h5"
+          noWrap
+          component="a"
+          href=""
+          sx={{
+            mr: 2,
+            display: { xs: 'flex', md: 'none' },
+            flexGrow: 1,
+            fontFamily: 'monospace',
+            fontWeight: 700,
+            letterSpacing: '.3rem',
+            color: 'inherit',
+            textDecoration: 'none',
+            color:'#80ed99'
+          }}
+        >
+          FIY-LINK
+        </Typography>
+        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          {/* {pages.map((page) => (
+            <Button
+              key={page}
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              {page}
+            </Button>
+          ))} */}
+            <Button
+              
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              Apperance
+            </Button>
+
+
+            <Button
+    
+              sx={{ my: 2, color: 'white', display: 'block' }}
+              onClick={handleanalytics}
+            >
+              Analytics
+            </Button>
+
+            <Button
+              
+              
+              sx={{ my: 2, color: 'white', display: 'block' }}
+              onClick={handlesubmit}
+            >
+               <BasicModal className="loader" style={{display: `${show? 'block' : 'none'}`}}/>
+              GetYourLink
+            </Button>
+        </Box>
+
+        <Box sx={{ flexGrow: 0 }}>
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} >
+              <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+            </IconButton>
+          </Tooltip>
+          <Menu 
+            sx={{ mt: '45px' }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            {/* {settings.map((setting) => (
+              <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <Typography textAlign="center">{setting}</Typography>
+              </MenuItem>
+            ))} */}
+             <MenuItem  onClick={handleCloseUserMenu}>
+                <Typography textAlign="center"  >
+                   <span onClick={handleClickOpen} >
+                Edit
+            </span>
+            <Dialog open={open} onClose={handleClose}>
+              <DialogTitle >Edit</DialogTitle>
+              <DialogContent>
+              <span>
+                  
+                  <input type="file" onChange={imagechange} style={{width:'30vh'}} />
+                </span> 
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  label="Name"
+                  type="text"
+                  defaultValue={name}
+                  fullWidth
+                  variant="standard"
+                  maxlength="19"
+                  onChange={(evt) => setNameValue(evt.target.value)}
+                />
+                <br /> <br />
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  label="About"
+                  defaultValue={about}
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={(evt) => setAbout(evt.target.value)}
+                />
+                
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button onClick={handleUpdateInfo}>Submit</Button>
+              </DialogActions>
+            </Dialog>
+                </Typography>
+              </MenuItem>
+
+              <MenuItem  onClick={handleCloseUserMenu}>
+                <Typography textAlign="center"  onClick={signout}>Log Out</Typography>
+              </MenuItem>
+
+          </Menu>
+        </Box>
+      </Toolbar>
+    </Container>
+  </AppBar>
   );
 };
 

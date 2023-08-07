@@ -2,6 +2,8 @@ import "./App.css";
 import "./card.css";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { Input, Stack } from "@chakra-ui/react";
+import { GrClose } from "react-icons/gr";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import "@fontsource/roboto";
@@ -21,11 +23,16 @@ import logo from "../public/cahrger.jpg";
 import template1 from "../public/template1.png";
 import template2 from "../public/template2.png";
 import template3 from "../public/template3.png";
+import { Component } from "react";
+import ReactSearchBox from "react-search-box";
+
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { CardActionArea, CardActions } from "@mui/material";
 import img2 from "../public/socialmedia.jpg";
+import Analytics from "./Analytics";
+
 import {
   MDBCard,
   MDBCardBody,
@@ -34,7 +41,9 @@ import {
   MDBCardImage,
   MDBBtn,
 } from "mdb-react-ui-kit";
+
 import img from "../public/defaultImage.jpg";
+
 import {
   FaFacebook,
   FaInstagram,
@@ -52,6 +61,7 @@ import {
   FaTiktok,
   FaPinterest,
 } from "react-icons/fa";
+
 const options = [
   "Facebook",
   "Instagram",
@@ -102,7 +112,10 @@ function Tabs() {
   const [productvideo, setproductvideo] = useState("");
   const [productimage, setproductimage] = useState();
   const [productdata, setproductdata] = useState([]);
+
   const [open1, setOpen1] = React.useState(false);
+  const [activeButton, setActiveButton] = useState(null);
+
   const data = [
     "Facebook",
     "Instagram",
@@ -120,16 +133,18 @@ function Tabs() {
     "TikTok",
     "Pinterest",
   ];
+
   const inputRef = useRef(null);
 
   // token check
-  useEffect(() => {
-    const token = localStorage.getItem("token");
+  //       useEffect(() => {
+  //           const token = localStorage.getItem("token");
 
-    if (!token) {
-      window.location.href = "/";
-    }
-  }, []);
+  //         if (!token) {
+  //            window.location.href = "/";
+  //           } else {
+  // }
+  //         }, []);
 
   const handleClickOpen1 = () => {
     setOpen1(true);
@@ -139,9 +154,21 @@ function Tabs() {
     setOpen1(false);
   };
 
-  const backgroundtemplate = () => {
-    const imageDiv = document.getElementById("imageDiv");
-  };
+  function handleSocialLink() {
+    setActiveButton("social");
+
+    console.log("clicked social");
+  }
+
+  function handleOtherLink() {
+    setActiveButton("other");
+    console.log("clicked other");
+  }
+
+  function handleProductLink() {
+    setActiveButton("product");
+    console.log("clicked product");
+  }
 
   const toggleTab = (index) => {
     setToggleState(index);
@@ -169,7 +196,7 @@ function Tabs() {
     };
 
     axios
-      .post("http://192.168.0.106:8080/user/update-info", obj, {
+      .post("http://192.168.0.108:8080/user/update-info", obj, {
         headers: {
           "content-type": "application/json",
           Authorization: "Bearer " + token,
@@ -203,7 +230,7 @@ function Tabs() {
     const token = localStorage.getItem("token");
 
     axios
-      .post("http://192.168.0.106:8080/user/upload-image", form, {
+      .post("http://192.168.0.108:8080/user/upload-image", form, {
         headers: {
           "content-type": "multipart/form-data",
           Authorization: "Bearer " + token,
@@ -214,7 +241,7 @@ function Tabs() {
 
         if (response.data) {
           setSelectedImage(
-            "http://192.168.0.106:8080/user/auth/get-user-image/" +
+            "http://192.168.0.108:8080/user/auth/get-user-image/" +
               response.data
           );
         } else {
@@ -239,7 +266,7 @@ function Tabs() {
     form.append("productVideo", productvideo);
 
     axios
-      .post("http://192.168.0.106:8080/user/add-product", form, {
+      .post("http://192.168.0.108:8080/user/add-product", form, {
         headers: {
           "content-type": "multipart/form-data",
           Authorization: "Bearer " + token,
@@ -265,7 +292,7 @@ function Tabs() {
     const token = localStorage.getItem("token");
 
     axios
-      .get("http://192.168.0.106:8080/user/get-user-info", {
+      .get("http://192.168.0.108:8080/user/get-user-info", {
         headers: {
           "content-type": "application/json",
           Authorization: "Bearer " + token,
@@ -280,7 +307,7 @@ function Tabs() {
         setproductdata(response.data.listOfProducts);
         if (response.data.image) {
           setSelectedImage(
-            "http://192.168.0.106:8080/user/auth/get-user-image/" +
+            "http://192.168.0.108:8080/user/auth/get-user-image/" +
               response.data.image
           );
         } else {
@@ -317,7 +344,7 @@ function Tabs() {
 
     axios
       .post(
-        "http://192.168.0.106:8080/user/add-other-link",
+        "http://192.168.0.108:8080/user/add-other-link",
         { name: name, url: url },
         {
           headers: {
@@ -340,7 +367,7 @@ function Tabs() {
 
     axios
       .post(
-        "http://192.168.0.106:8080/user/delete-link",
+        "http://192.168.0.108:8080/user/delete-link",
         { name: name, link: link },
         {
           headers: {
@@ -363,7 +390,7 @@ function Tabs() {
 
     axios
       .post(
-        "http://192.168.0.106:8080/user/delete-other-link",
+        "http://192.168.0.108:8080/user/delete-other-link",
         { name: name, url: url },
         {
           headers: {
@@ -384,7 +411,7 @@ function Tabs() {
   const deleteProduct = (product) => {
     const token = localStorage.getItem("token");
     axios
-      .post("http://192.168.0.106:8080/user/delete-product", product, {
+      .post("http://192.168.0.108:8080/user/delete-product", product, {
         headers: {
           "content-type": "application/json",
           Authorization: "Bearer " + token,
@@ -399,18 +426,12 @@ function Tabs() {
       });
   };
 
-  const removeLink = (index) => {
-    const updatedLinks = [...links];
-    updatedLinks.splice(index, 1);
-    setLinkss(updatedLinks);
+  const handleanalytics = () => {
+    navigate("/anaytics");
   };
 
   const changeColor = (newColor) => {
     setColor(newColor);
-  };
-
-  const handleSocialMediaChange = (e) => {
-    setSelectedSocialMedia(e.target.value);
   };
 
   const handleAddButtonClick = (evt) => {
@@ -430,7 +451,7 @@ function Tabs() {
 
     axios
       .post(
-        "http://192.168.0.106:8080/user/add-link",
+        "http://192.168.0.108:8080/user/add-link",
         { name: selectedSocialMedia, link: selectedLink },
         {
           headers: {
@@ -489,14 +510,12 @@ function Tabs() {
 
   const signout = () => {
     localStorage.removeItem("token");
-    navigate("/");
+    navigate("/login");
   };
-
-//  const handlesocialmediatextchange = () => {};
 
   return (
     <>
-      <div className="navbar-bio">
+      <div className="navbar-bio"  >
         <Box sx={{ flexGrow: 1 }} className="navbar-admin">
           <AppBar
             className="App-bar"
@@ -515,6 +534,21 @@ function Tabs() {
                 sx={{ flexGrow: 1 }}
                 style={{ color: "black", fontSize: "5vh" }}
               ></Typography>
+
+              <span className="submit-biopage">
+                <Button
+                  variant="contained"
+                  color="success"
+                  style={{
+                    backgroundColor: "#00B4D8",
+                    width: "30%",
+                    marginLeft: "5vw",
+                  }}
+                  onClick={handlesubmit}
+                >
+                  Link
+                </Button>{" "}
+              </span>
 
               <span className="template" style={{ marginRight: "1vw" }}>
                 <div>
@@ -608,6 +642,18 @@ function Tabs() {
                 </div>
               </span>
 
+              <span>
+                <Button
+                  variant="contained"
+                  onClick={handleanalytics}
+                  style={{
+                    marginRight: "1vw",
+                  }}
+                >
+                  Analytics
+                </Button>
+              </span>
+
               <span className="edit-biopage-span">
                 <Button
                   variant="contained"
@@ -674,473 +720,343 @@ function Tabs() {
             </Toolbar>
           </AppBar>
         </Box>
-      </div>
-
-      <div className="background-biopage" style={{ zIndex: "0" }}>
-        <ul
-          className="background"
-          style={{
-            height: "100%",
-            width: "100%",
-            backgroundColor: "lightyellow",
-          }}
-        >
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-      </div>
+      </div> 
 
       {/* sidenav  */}
 
       <div
-        className="bio-main"
-        style={{ display: "flex", flexDirection: "row", alignSelf: "center" }}
-      >
+        className="bio-main"  style={{display:'grid',gridTemplateColumns:'repeat(2,1fr'}}
+       
+       >
         {/* <div className="bio-card"> */}
-        <div
-          className="container"
-          style={{ width: "65vw", boxShadow: "5px 5px 30px  black" }}
+          
+        <div 
+          className=" bg-gray-200 rounded-[13px] justify-between items-center h-[580px] "
+          
         >
-          <div className="bloc-tabs">
+          <div className="flex justify-center gap-2 p-8">
             <button
-              className={toggleState === 1 ? "tabs active-tabs" : "tabs"}
-              onClick={() => toggleTab(1)}
+              type="button"
+              className={` rounded-none h-[78px] w-[219px] border-r-4 border-b-4 border-black p-2 ${
+                activeButton === "social"
+                  ? " bg-blue-600 text-white"
+                  : "bg-zinc-50"
+              }`}
+              onClick={handleSocialLink}
             >
-              <b> Social Links </b>
-            </button>
-            <button
-              className={toggleState === 2 ? "tabs active-tabs" : "tabs"}
-              onClick={() => toggleTab(2)}
-            >
-              <b> Other Links </b>
+              Social Links
             </button>
 
-            {/* product link  */}
             <button
-              className={toggleState === 3 ? "tabs active-tabs" : "tabs"}
-              onClick={() => toggleTab(3)}
+              type="button"
+              className={` rounded-none  h-[78px] w-[219px] border-r-4 border-b-4 border-black p-2 ${
+                activeButton === "other"
+                  ? " bg-blue-600 text-white"
+                  : "bg-zinc-50"
+              }`}
+              onClick={handleOtherLink}
             >
-              <b> Product Link </b>
+              Other Links
+            </button>
+            <button
+              type="button"
+              className={`rounded-none  h-[78px] w-[219px] border-r-4 border-b-4 border-black p-2 ${
+                activeButton === "product"
+                  ? " bg-blue-600 text-white"
+                  : "bg-zinc-50"
+              }`}
+              onClick={handleProductLink}
+            >
+              Product Links
             </button>
           </div>
-          <div className="content-tabs">
-            <div
-              className={
-                toggleState === 1 ? "content  active-content" : "content"
-              }
-            >
-              <div>
-                <div className="autocomplete">
-                  <Autocomplete
-                    value={value}
-                    onChange={(event, newValue) => {
-                      setValue(newValue);
-                    }}
-                    selectedSocialMedia={inputValue}
-                    onInputChange={(event, newInputValue) => {
-                      setSelectedSocialMedia(newInputValue);
-                    }}
-                    id="controllable-states-demo"
-                    options={data}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Social Media Name"
-                        className="autocomplete-field"
-                        style={{
-                          marginLeft: "7.5vw",
-                          width: "29.1vw",
-                          marginTop: "4vh",
-                        }}
-                        value={data}
-                      />
-                    )}
-                  />{" "}
-                </div>
-              </div>
-
-              <br />
-
-              <TextField
-                fullWidth
-                label=" Social Media Url"
-                id="fullWidth"
-                value={selectedLink}
-                style={{
-                  width: "70%",
-                  marginRight: "10%",
-                  marginLeft: "18%",
-                  marginBottom: "5vh",
-                  marginTop: "1.8vh",
-                }}
-                onChange={(evt) => setSelectedLink(evt.target.value)}
-              />
-              <span className="social-btn">
-                <Button
-                  variant="contained"
-                  color="success"
-                  style={{
-                    backgroundColor: "green",
-                    width: "20%",
-                    marginBottom: 20,
-                    borderRadius: 10,
-                    marginLeft: "17vw",
-                  }}
-                  onClick={handleAddButtonClick}
-                >
-                  Add
-                </Button>{" "}
-              </span>
-
-              <div className="links-container">
-                {listOfLinks.map((link, index) => (
-                  <div key={index} className="links-div">
-                    <div
-                      className="label-div"
-                      style={{ marginTop: "1vh", fontWeight: "600" }}
-                    >
-                      <label>{link.name}</label>
-                      <br />
-                      {/* <label>{link.link}</label> */}
-                    </div>
-                    <div
-                      className="delete-div"
-                      onClick={() => deleteLink(link.name, link.link)}
-                    >
-                      X
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div
-              className={
-                toggleState === 2 ? "content  active-content" : "content"
-              }
-            >
-              <TextField
-                fullWidth
-                label="Label"
-                value={name}
-                name="labelname"
-                style={{
-                  width: "70%",
-                  marginRight: "10%",
-                  marginLeft: "18%",
-                  marginTop: "4vh",
-                }}
-                onChange={handleNameChange}
-              />
-
-              <TextField
-                fullWidth
-                label="Links"
-                value={url}
-                id="fullWidth"
-                style={{
-                  width: "70%",
-                  marginRight: "10%",
-                  marginLeft: "18%",
-                  marginTop: "4vh",
-                  marginBottom: "5vh",
-                }}
-                onChange={handleUrlChange}
-              />
-              <span className="social-btn">
-                <Button
-                  variant="contained"
-                  color="success"
-                  className="other-link-btn-bio"
-                  style={{
-                    width: "20%",
-                    marginBottom: 20,
-                    borderRadius: 10,
-                    marginLeft: "17vw",
-                  }}
-                  onClick={addLink}
-                >
-                  Add
-                </Button>{" "}
-              </span>
-
-              <div className="links-container">
-                {listOfOtherLinks.map((link, index) => (
-                  <div key={index} className="links-div">
-                    <div className="label-div">
-                      <label
-                        style={{
-                          fontWeight: "600",
-                          marginTop: "1vh",
-                          fontFamily: "Roboto",
-                          color: "#353535",
-                        }}
+          <div className="flex justify-center">
+            <Stack spacing={4}>
+              {activeButton === "social" && (
+                <>
+                  <Input
+                    className=" w-[240px] sm:w-[35vw] h-14 "
+                    htmlSize={4}
+                    variant="filled"
+                    placeholder="   Social Media Platform"
+                  />
+                  <br />
+                  <Input
+                    className="w-[240px] sm:w-[35vw] h-14 "
+                    htmlSize={4}
+                    variant="filled"
+                    placeholder="   Social Media Link"
+                    onChange={(evt) => setSelectedLink(evt.target.value)}
+                  />
+                 
+                      <button
+                        className=" bg-green-500 w-[11vmax] h-[40px] text-yellow-50 text-lg font-bold rounded-lg " id="socialmedia-btn"
+                        onClick={handleAddButtonClick}
                       >
-                        {link.name}
-                      </label>
-                      <br />
-                      {/* <label>{link.url}</label> */}
-                    </div>
-                    <div
-                      className="delete-div"
-                      onClick={() => deleteotherLink(link.name, link.url)}
-                    >
-                      X
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+                        ADD
+                      </button> 
+                  
 
-            {/* product  */}
-
-            <div
-              className={
-                toggleState === 3 ? "content  active-content" : "content"
-              }
-            >
-              <TextField
-                fullWidth
-                label="Product Name"
-                id="fullWidth"
-                style={{
-                  width: "70%",
-                  marginRight: "10%",
-                  marginLeft: "18%",
-                  marginTop: "4vh",
-                }}
-                onChange={(evt) => setproductname(evt.target.value)}
-              />
-              <TextField
-                fullWidth
-                label="Product Url"
-                id="fullWidth"
-                style={{
-                  width: "70%",
-                  marginRight: "10%",
-                  marginLeft: "18%",
-                  marginTop: "4vh",
-                }}
-                onChange={(evt) => setproducturl(evt.target.value)}
-              />
-              <TextField
-                fullWidth
-                label="Product Your Youtube Video Link "
-                id="fullWidth"
-                style={{
-                  width: "70%",
-                  marginRight: "10%",
-                  marginLeft: "18%",
-                  marginTop: "4vh",
-                  marginBottom: "5vh",
-                }}
-                onChange={(evt) => setproductvideo(evt.target.value)}
-              />
-              <input
-                type="file"
-                name="productimage"
-                id=""
-                style={{ marginLeft: "7.7vw" }}
-                onChange={handleproduct}
-              />{" "}
-              <hr />
-              <Button
-                variant="contained"
-                color="success"
-                className="other-link-btn-bio"
-                style={{
-                  width: "20%",
-                  marginBottom: 20,
-                  borderRadius: 10,
-                  marginLeft: "17vw",
-                }}
-                onClick={addproductlink}
-              >
-                Add
-              </Button>{" "}
-              <br />
-              <div className="links-container">
-                {productdata.map((product, index) => (
-                  <div key={index} className="links-div">
-                    <div className="label-div">
-                      <label
-                        style={{
-                          fontWeight: "600",
-                          marginTop: "1vh",
-                          fontFamily: "Roboto",
-                          color: "#353535",
-                        }}
-                      >
-                        {product.productName}
-                      </label>
-                      <br />
-                      {/* <label>{link.url}</label> */}
-                    </div>
-                    <div
-                      className="delete-div"
-                      onClick={() => deleteProduct(product)}
-                    >
-                      X
-                    </div>
+                  <div className="links-container">
+                    {listOfLinks.map((link, index) => (
+                      <div key={index} className="links-div">
+                        <div
+                          className="label-div"
+                          style={{ marginTop: "1vh", fontWeight: "600" }}
+                        >
+                          <label>{link.name}</label>
+                          <br />
+                          {/* <label>{link.link}</label> */}
+                        </div>
+                        <div
+                          className="delete-div"
+                          onClick={() => deleteLink(link.name, link.link)}
+                        >
+                          X
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
+                </>
+              )}
+
+              {activeButton === "other" && (
+                <>
+                  <Input
+                    className=" w-[240px] sm:w-[35vw] h-14 "
+                    htmlSize={4}
+                    variant="filled"
+                    placeholder="   Other Media Platform"
+                    onChange={handleNameChange}
+                  />
+                  <br />
+                  <Input
+                    className="w-[240px] sm:w-[35vw] h-14 "
+                    htmlSize={4}
+                    variant="filled"
+                    placeholder="   Other Link"
+                    onChange={handleUrlChange}
+                  />
+                  <button
+                    className=" bg-green-500 w-[14vmax] h-[40px] text-yellow-50 text-lg font-bold rounded-lg"
+                    onClick={addLink}
+                  >
+                    ADD
+                  </button>
+
+                  <div className="links-container">
+                    {listOfOtherLinks.map((link, index) => (
+                      <div key={index} className="links-div">
+                        <div className="label-div">
+                          <label
+                            style={{
+                              fontWeight: "600",
+                              marginTop: "1vh",
+                              fontFamily: "Roboto",
+                              color: "#353535",
+                            }}
+                          >
+                            {link.name}
+                          </label>
+                          <br />
+                          {/* <label>{link.url}</label> */}
+                        </div>
+                        <div
+                          className="delete-div"
+                          onClick={() => deleteotherLink(link.name, link.url)}
+                        >
+                          X
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {activeButton === "product" && (
+                <>
+                  <Input
+                    className=" w-[240px] sm:w-[35vw] h-14 "
+                    htmlSize={4}
+                    variant="filled"
+                    placeholder="   Product Platform"
+                    onChange={(evt) => setproducturl(evt.target.value)}
+                  />
+                  <br />
+                  <Input
+                    className="w-[240px] sm:w-[35vw] h-14 "
+                    htmlSize={4}
+                    variant="filled"
+                    placeholder="   Product URL"
+                    o
+                    onChange={(evt) => setproducturl(evt.target.value)}
+                  />
+
+                  <Input
+                    className="w-[240px] sm:w-[35vw] h-14 "
+                    htmlSize={4}
+                    variant="filled"
+                    placeholder="   Product video url"
+                    onChange={(evt) => setproductvideo(evt.target.value)}
+                  />
+                  <button
+                    className=" bg-green-500 w-[14vmax] h-[40px] text-yellow-50 text-lg font-bold rounded-lg"
+                    onClick={addproductlink}
+                  >
+                    ADD
+                  </button>
+
+                  <div className="links-container">
+                    {productdata.map((product, index) => (
+                      <div key={index} className="links-div">
+                        <div className="label-div">
+                          <label
+                            style={{
+                              fontWeight: "600",
+                              marginTop: "1vh",
+                              fontFamily: "Roboto",
+                              color: "#353535",
+                            }}
+                          >
+                            {product.productName}
+                          </label>
+                          <br />
+                          {/* <label>{link.url}</label> */}
+                        </div>
+                        <div
+                          className="delete-div"
+                          onClick={() => deleteProduct(product)}
+                        >
+                          X
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+            </Stack>
           </div>
-          <span className="submit-biopage">
-            <Button
-              variant="contained"
-              color="success"
-              style={{
-                backgroundColor: "#00B4D8",
-                width: "30%",
-                marginLeft: "16vw",
-              }}
-              onClick={handlesubmit}
-            >
-              Get Your Link
-            </Button>{" "}
-          </span>
+          <br />
+          <div className="flex justify-center"></div>
         </div>
+      
 
-        <div className="bio-phone" style={{ zIndex: "3" }}>
+      <div className="bio-phone" style={{ zIndex: "3" }}>
+        <div
+          className="bio-mainphone"
+          style={{
+            marginTop: "10vh",
+            border: "5px solid black",
+            height: "70vh",
+            width: "20vw",
+            borderRadius: "6vh",
+            flexWrap: "wrap",
+            overflowWrap: "break-word",
+            overflowY: "auto",
+            background: color,
+            // borderRadius: '16px',
+
+            // border: '1px solid rgba(255, 255, 255, 0.25)',
+          }}
+        >
+          <span style={{ marginLeft: "6vw", color: "black" }}>
+            {" "}
+            <b> FIY-LINK </b>
+          </span>
+          {/* <input type="file" name="image-upload" id="image-upload"  style={{borderRadius:'50%',backgroundColor:'red',width:'10vh'}} /> */}
+
+          <div style={{ display: "flex" }}>
+            {selectedImage && (
+              <img
+                src={selectedImage}
+                alt="Selected"
+                onChange={handleImageChange}
+                style={{
+                  height: "9vh",
+                  width: "4vw",
+                  marginLeft: "0.5vw",
+                  borderRadius: "50%",
+                }}
+              />
+            )}
+
+            <div className="name-icons" style={{ paddingLeft: "1vw" }}>
+              <div
+                className="Name"
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  overflowWrap: "break-word",
+                  overflowY: "-moz-initial",
+                }}
+              >
+                {Name}
+              </div>
+              <div className="social-container">
+                {listOfLinks.map((link) => (
+                  <a
+                    key={link.index}
+                    target="_blank"
+                    href={link.link}
+                    className="social-icon-container"
+                    style={{ fontSize: "2vh", color: "black", margin: "0" }}
+                  >
+                    {renderSocialMediaIcon(link.name)}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div style={{ marginLeft: "1.5vw", marginRight: "1.5vw" }}>
+            <span className="about-phone-bio">{About} </span> <hr />{" "}
+          </div>
+
           <div
-            className="bio-mainphone"
+            className="card-div"
             style={{
-              marginTop: "10vh",
-              border: "2px solid black",
-              height: "60vh",
-              width: "15vw",
-              borderRadius: "6vh",
               flexWrap: "wrap",
               overflowWrap: "break-word",
               overflowY: "auto",
-              background: color,
-              // borderRadius: '16px',
-              boxShadow: "5px 4px  black",
-              backdropFilter: "blur(11.4px)",
-              WebkitBackdropFilter: "blur(11.4px)",
-              // border: '1px solid rgba(255, 255, 255, 0.25)',
             }}
           >
-            <span style={{ marginLeft: "6vw", color: "black" }}>
-              {" "}
-              <b> FIY-LINK </b>
-            </span>
-            {/* <input type="file" name="image-upload" id="image-upload"  style={{borderRadius:'50%',backgroundColor:'red',width:'10vh'}} /> */}
-
-            <div style={{ display: "flex" }}>
-              {selectedImage && (
-                <img
-                  src={selectedImage}
-                  alt="Selected"
-                  onChange={handleImageChange}
-                  style={{
-                    height: "9vh",
-                    width: "4vw",
-                    marginLeft: "0.5vw",
-                    borderRadius: "50%",
-                  }}
-                />
-              )}
-
-              <div className="name-icons" style={{ paddingLeft: "1vw" }}>
-                <div
-                  className="Name"
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    overflowWrap: "break-word",
-                    overflowY: "-moz-initial",
-                  }}
-                >
-                  {Name}
-                </div>
-                <div className="social-container">
-                  {listOfLinks.map((link) => (
-                    <a
-                      key={link.index}
-                      target="_blank"
-                      rel="noreferrer"
-                      href={link.link}
-                      className="social-icon-container"
-                      style={{ fontSize: "2vh", color: "black", margin: "0" }}
-                    >
-                      {renderSocialMediaIcon(link.name)}
-                    </a>
-                  ))}
+            {listOfOtherLinks.map((link, index) => (
+              <div key={index}>
+                <div className="card-bar">
+                  <a href={link.url} target="_blank" rel="noopener noreferrer">
+                    {link.name}
+                  </a>
                 </div>
               </div>
-            </div>
-            <div style={{ marginLeft: "1.5vw", marginRight: "1.5vw" }}>
-              <span className="about-phone-bio">{About} </span> <hr />{" "}
-            </div>
+            ))}
+          </div>
 
-            <div
-              className="card-div"
-              style={{
-                flexWrap: "wrap",
-                overflowWrap: "break-word",
-                overflowY: "auto",
-              }}
-            >
-              {listOfOtherLinks.map((link, index) => (
-                <div key={index}>
-                  <div className="card-bar">
-                    <a
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {link.name}
-                    </a>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="search-box"></div>
 
-            <div className="product-section">
-              {productdata.map((product, index) => (
-                <div key={index}>
-                  <Card
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      marginLeft: "2vw",
-                      marginRight: "2vw",
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      image={
-                        product.productImage
-                          ? "http://192.168.0.106:8080/user/auth/get-product-image/" +
-                            product.productImage
-                          : img2
-                      }
-                      alt="Live from space album cover"
-                    />
-                    <span style={{ alignSelf: "center" }}>
-                      {" "}
-                      <b> {product.productName} </b>
-                    </span>
-                  </Card>
-                </div>
-              ))}
-            </div>
+          <div className="product-section">
+            {productdata.map((product, index) => (
+              <div key={index}>
+                <Card sx={{ display: "flex", flexDirection: "column" }}>
+                  <CardMedia
+                    component="img"
+                    image={
+                      product.productImage
+                        ? "http://192.168.0.108:8080/user/auth/get-product-image/" +
+                          product.productImage
+                        : img2
+                    }
+                    alt="Live from space album cover"
+                  />
+                  <span style={{ alignSelf: "center" }}>
+                    {" "}
+                    <b> {product.productName} </b>
+                  </span>
+                </Card>
+              </div>
+            ))}
           </div>
         </div>
       </div>
-
-      {/* </div> */}
+      </div>
     </>
   );
 }

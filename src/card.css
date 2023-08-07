@@ -29,12 +29,7 @@
   
   .container {
 /* From https://css.glass */
-background: rgba(227, 227, 227, 0.48);
-border-radius: 16px;
-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-backdrop-filter: blur(11.4px);
--webkit-backdrop-filter: blur(11.4px);
-border: 1px solid rgba(255, 255, 255, 0.25);
+
 
     padding: 8px 8px;
     display: flex;
@@ -44,7 +39,6 @@ border: 1px solid rgba(255, 255, 255, 0.25);
     margin: 100px auto 0;
     word-break: break-all;
     border-radius: 16px;
-    border: 0.4px solid rgba(126, 126, 126, 0.274);
     margin-top: 10vh;
  
     margin-right: 10vw;
@@ -93,6 +87,12 @@ border: 1px solid rgba(255, 255, 255, 0.25);
     background: rgb(88, 147, 241);
   }
   
+  
+  
+  button {
+    border: none;
+    
+  }
   .content-tabs {
     flex-grow : 1;
   }
@@ -147,41 +147,25 @@ border: 1px solid rgba(255, 255, 255, 0.25);
 
 
 
-
+/* 
   @media (max-width: 1260px) {
     .bio-mainphone {
      display: none;
     }
 
-  }
+  } */
 
 
   /* media queries */
 
   @media (max-width: 760px) {
-    .bio-mainphone {
+    /* .bio-mainphone {
      display: none;
-    }
+    } */
     
-    .container {
-      min-width: 90vw;
-      margin-top: 20vh;
-      margin-left: 5vw;
-      
-     
-    }
     
-    .autocomplete{
-      margin-left: 8.5vw;
-      
-      
-    }
-    .autocomplete-field{
-      width: 40vw;
-    }
-    .autocomplete-field{
-      min-width: 90vw;
-    }
+    
+    
     .links-div{
 
      width: 60vw;    
@@ -226,10 +210,10 @@ border: 1px solid rgba(255, 255, 255, 0.25);
 
   .product-section {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr;
-   
     grid-row-gap: 20px;
+    grid-column-gap: 20px;
     }
   
 

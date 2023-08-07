@@ -1,11 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 * {
-  padding: 0px;
-  margin: 0px;
-  box-sizing: border-box;
   font-family: "Roboto";
 }
 .main-container {
@@ -45,10 +39,7 @@
     display: flex;  
   
    border-radius: 8px;
-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
--webkit-backdrop-filter: blur(10.9px);
-backdrop-filter: blur(10.9px);
-border: 1px solid rgba(200, 200, 200, 0.4);
+border: 1px solid rgb(197, 190, 190);
 background-color: #ffffff;
    margin-bottom: 1.5vh;
    padding: 5px;
@@ -130,5 +121,17 @@ background-color: #ffffff;
   @media (min-width: 720px) {
     .color-ball {
       --size: 500px;
+
     }
+   
   }
+
+
+  @media (max-width: 768px) {
+   
+   .div2-second{
+    display: none;
+   }
+
+  }
+

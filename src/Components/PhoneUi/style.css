@@ -55,9 +55,13 @@
 }
 
 .box .group {
-  height: 100px;
-  position: relative;
-  width: 314.81px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 10px;
+    grid-row-gap: 0px;
+    
 }
 
 .box .PFP {
@@ -81,11 +85,14 @@
 }
 
 .box .title {
-  height: 29px;
-  margin-left: -21.5px;
-  margin-right: -21.5px;
-  position: relative;
-  width: 215px;
+  
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    
+  
 }
 
 .box .h-1 {
@@ -94,11 +101,10 @@
   font-family: "Inter", Helvetica;
   font-size: 24px;
   font-weight: 600;
-  left: 21px;
+  
   letter-spacing: 2.64px;
   line-height: normal;
-  position: absolute;
-  top: -19px;
+
 }
 
 .box .badge-user-normal {

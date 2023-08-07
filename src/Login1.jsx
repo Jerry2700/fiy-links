@@ -19,7 +19,6 @@ function Login1() {
   
 
 
-    const [token, setToken] = useState("");
 
     const navigate = useNavigate();
   const handlelogin = () => {
@@ -35,10 +34,11 @@ function Login1() {
         axios.post("http://192.168.0.106:8080/user/auth/login", { "username":username,"password": password })
           .then((response) => {
             console.log(response.data)
-            navigate('/biopage');
+           
             const receivedToken = response.data.token;
             localStorage.setItem('token', receivedToken); 
             // alert(`Logged in successfully as ${username}`);
+            navigate('/biopage');
             
             
             
@@ -96,7 +96,7 @@ function Login1() {
     .then( (response) => {
         console.log(response.status);
         console.log(response.data);
-        // navigate("/login");
+         navigate("/login");
       }
     )
     .catch((error) => {
@@ -179,13 +179,13 @@ const usernamecheck=()=>{
             <div className="input-field">
 
 
-            <i class="fa-solid fa-user"></i> 
+         
 
 
              <input type="text" placeholder="Name" onChange={(e) => setname(e.target.value)} />
             </div>
             <div className="input-field">
-            <i class="fa-solid fa-user"></i>              
+                        
               <input type="text" placeholder="Username"  onChange={(e) => setUsername(e.target.value)} />
             </div>
             <div className="input-field">

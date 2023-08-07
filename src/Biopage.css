@@ -1,9 +1,23 @@
-.container-biopage2 {  display: grid;
-    grid-template-columns: 0.6fr 1.6fr 0.8fr;
-    grid-template-rows: 1fr;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-      ". . .";
-  }
-  
+.parent {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.2fr 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    }
+    
+    .div1 { grid-area: 1 / 1 / 2 / 2; }
+    .div2 { grid-area: 2 / 1 / 3 / 2; }
+
+    .div2{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: 1fr;
+            grid-column-gap: 10vw;
+            
+            grid-row-gap: 0px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    @media (min-width: 600px) {
+        .div2{ grid-template-columns: repeat(2, 1fr); }
+      }

@@ -2,53 +2,51 @@ import React from "react";
 import styled from "styled-components";
 import { GlobalStyle } from "./Styles/globalStyles";
 import axios from "axios";
-import ClipLoader from "react-spinners/ClipLoader"
 import {  Routes, Route, Link,useNavigate } from "react-router-dom";
-import { useState,useEffect } from "react";
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-const Maindiv=()=>{
+import BasicModal from "./Loader";
+import { useState } from "react";
+
+
+const Mainlogin2=()=>{
 
   const navigate = useNavigate();
+  const [show,setshow]=useState(false);
    
  
 
     const handlelogin = (evt) => {
       
-
-  
-     
-     
       evt.preventDefault();
+      setshow(true);
 
         const username = document.getElementById("username").value;
-        const Email = document.getElementById("Email").value;
-
+        const password = document.getElementById("password").value;
            
-        localStorage.setItem("Email", Email);
+        localStorage.setItem("password", password);
         localStorage.setItem("username", username); 
   
-        if (username.trim() === "" || Email.trim() === "") {
-          alert("Please enter username and Email");
+        if (username.trim() === "" || password.trim() === "") {
+          alert("Please enter username and password");
           return; 
         } 
       
         
   
   
-        axios.post("http://192.168.0.108:8080/user/auth/forgot-password", {"username": username, "registeredEmail": Email })
+        axios.post("http://192.168.0.108:8080/user/auth/login", {"username": username, "password": password })
   .then((response) => {
     console.log(response.data); // Check the response data
     // ... rest of the code
      
-    
-    alert(response.data);
-   navigate('/login');
+    const receivedToken = response.data.token;
+    localStorage.setItem('token', receivedToken); 
+    // alert(`Logged in successfully as ${username}`);
+   navigate('/radhe');
   })
   .catch((error) => {
-    console.error(error);
+    console.log(error);
   
   })
-  
 
 
 
@@ -90,23 +88,25 @@ const Maindiv=()=>{
               </div>
               <div className="input-block">
                 <label htmlFor="password" className="input-label">
-                   Email ID
+                   Password
                 </label>
                 <input
-                  type="email"
+                  type="password"
                   autoComplete="off"
-                  name="Email ID"
-                  id="Email"
-                  placeholder="Email ID"
+                  name="password"
+                  id="password"
+                  placeholder="Password"
                 
                 />
                
               </div>
               <div className="modal-buttons">
                
-                <button className="input-button" type="submit" onClick={handlelogin}>
-                  Submit
-                
+                <button className="input-button" type="submit" onClick={handlelogin} >
+                 
+                  <BasicModal className="loader" style={{display: `${show? 'block' : 'none'}`}}/> 
+                  
+                  Login
                 </button>
               </div>
             </form>
@@ -114,7 +114,9 @@ const Maindiv=()=>{
                  
                
                 <p className="sign-up">
-                  <Link to="/signup" > <b><KeyboardBackspaceIcon style={{fontSize:'4vh'}}/>  Back To Sign up </b>  </Link>
+                 <Link to="/signup" > <b> Create New Account </b> </Link>
+                 
+                 <Link to="/reset" > <b> Forgot Password?</b> </Link>
                 </p>
               </div>
               <div className="modal-right">
@@ -300,4 +302,4 @@ const Wrapper = styled.section`
     }
   }
 `;
-export default Maindiv;
+export default Mainlogin2;
