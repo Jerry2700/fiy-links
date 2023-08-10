@@ -12,6 +12,7 @@ import Analytics from "./Analytics.jsx";
 import Mainlogin from "./Mainlogin";
 import Mainlogin2 from "./Mainlogin2";
 import Preview from "./Previewphone.jsx";
+import Page_1 from './Apperance/Apperance1.jsx';
 
 
 const App=()=>{
@@ -36,7 +37,7 @@ const App=()=>{
        <Route path="/biopage" element={<BioPage/>}></Route>
        <Route path="/anaytics" element={<Analytics/>}></Route>
        <Route path="/kk" element={<Preview/>}></Route>
-
+       <Route path="/apperance" element={<Page_1/>}></Route>
 
 
 

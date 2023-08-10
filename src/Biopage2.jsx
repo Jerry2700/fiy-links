@@ -105,6 +105,10 @@ const options = [
 
 const BioPage2=()=>{
 
+  const [sharedState, setSharedState] = useState("");
+
+  
+
     const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [toggleState, setToggleState] = useState(1);
@@ -556,7 +560,7 @@ const BioPage2=()=>{
         <> 
 
 <div className="parent">
-<div className="div1" style={{height:"10vh"}}> 
+<div className="div1"> 
    <Navbar clickopen={handleClickOpen}  imagechange={handleImageChange}
    name={Name} about={About}  updateinfo={handleUpdateInfo}
     signout={signout} setNameValue={setNameValue} setAbout={setAbout} setAbout1={setAbout1} setName1={setName1}
@@ -568,7 +572,7 @@ const BioPage2=()=>{
 </div>
 
 
-<div class="div2"  >
+<div className="div2"  >
     <div className=" justify-center mx-2 sm:ml-4 "   >
      <div 
           className="bg-[#eeeeee] rounded-[13px] justify-between items-center h-full mt-8 "
