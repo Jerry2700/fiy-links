@@ -10,21 +10,36 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'transparent',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
+  width: 70,
+  
+ 
 };
 
-export default function BasicModal() {
+export default function BasicModal({name}) {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+
+
+
+  const handleOpen = () => {
+    setOpen(true);
+    simulateResponse();
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+ 
+  const simulateResponse = () => {
+    setTimeout(() => {
+      handleClose(); // Close the modal after receiving a response
+    }, 500); // Adjust the time as needed
+  };
+
+ 
 
   return (
     <div>
-      <Button onClick={handleOpen}  > </Button>
+      <Button style={{color:'white',fontWeight:'bolder'}} onClick={handleOpen}>{name} </Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -33,7 +48,7 @@ export default function BasicModal() {
       >
         <Box sx={style}>
          
-        <CircularProgress />
+        <CircularProgress style={{color:'white'}} />
          
         </Box>
       </Modal>

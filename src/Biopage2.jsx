@@ -1,66 +1,28 @@
-
-
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import { ThemeProvider } from '@mui/material/styles';
-import Fab from '@mui/material/Fab';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import "./BioPage.css";
 
 import "./App.css";
 import "./card.css";
+import Alert from '@mui/material/Alert';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import "./Main.css";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Input, Stack } from "@chakra-ui/react";
-import { GrClose } from "react-icons/gr";
+
 import * as React from "react";
-import Button from "@mui/material/Button";
 import "@fontsource/roboto";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogActions from "@mui/material/DialogActions";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import Autocomplete from "@mui/material/Autocomplete";
-import logo from "../public/cahrger.jpg";
-import template1 from "../public/template1.png";
-import template2 from "../public/template2.png";
-import template3 from "../public/template3.png";
-import { Component } from "react";
-import ReactSearchBox from "react-search-box";
 
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea, CardActions } from "@mui/material";
-import img2 from "../public/socialmedia.jpg";
-import Analytics from "./Analytics";
-
-import {
-  MDBCard,
-  MDBCardBody,
-  MDBCardTitle,
-  MDBCardText,
-  MDBCardImage,
-  MDBBtn,
-} from "mdb-react-ui-kit";
-import PhoneUI from "../src/Components/PhoneUi/PhoneUI";
+import PhoneUI from "./PhoneUI";
 
 import img from "../public/defaultImage.jpg";
-import Navbar from './Navbar.jsx';
+import Navbar from "./Navbar.jsx";
+import LinkIcon from '@mui/icons-material/Link';
+
+// import { createContext } from "react";
 
 import {
   FaFacebook,
@@ -80,7 +42,8 @@ import {
   FaPinterest,
 } from "react-icons/fa";
 
-import { Diversity1Rounded } from '@mui/icons-material';
+import BasicModal from "./Loader";
+import FullScreenDialog from "./Modals";
 
 const options = [
   "Facebook",
@@ -100,16 +63,27 @@ const options = [
   "Pinterest",
 ];
 
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import ListItemText from "@mui/material/ListItemText";
+import ListItem from "@mui/material/ListItem";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import CloseIcon from "@mui/icons-material/Close";
+import Slide from "@mui/material/Slide";
+import { Chip } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
-
-const BioPage2=()=>{
-
-  const [sharedState, setSharedState] = useState("");
-
-  
-
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
+const BioPage2 = () => {
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [toggleState, setToggleState] = useState(1);
   const [Name, setNameValue] = useState("");
@@ -117,7 +91,6 @@ const BioPage2=()=>{
   const [Social, setsocial] = useState([]);
   const [color, setColor] = useState("white");
   const [About, setAbout] = useState("");
-  const [val, setval] = useState("");
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
   const [links, setLinkss] = useState([]);
@@ -132,7 +105,6 @@ const BioPage2=()=>{
   const [name1, setName1] = useState("");
   const [about1, setAbout1] = useState("");
   const navigate = useNavigate();
-  const [template, settemplate] = useState("");
 
   const [value, setValue] = React.useState(options[0]);
   const [inputValue, setInputValue] = React.useState("");
@@ -145,6 +117,35 @@ const BioPage2=()=>{
 
   const [open1, setOpen1] = React.useState(false);
   const [activeButton, setActiveButton] = useState(null);
+  const [flag, setflag] = useState(false);
+
+  const [open4, setOpen4] = React.useState(false);
+
+  const [outline, setOutline] = useState("");
+  const [fontColor, setFontColor] = useState("black");
+  const [fontfamily, setfontfamily] = useState("");
+  const [selectedBgColor, setSelectedBgColor] = useState("#fffff");
+  const[error,seterror]=useState(false);
+  const[errorother,seterrorother]=useState(false);
+  const[error2,seterror2]=useState(false);
+  const[errorsocial,seterrorsocial]=useState(false);
+  const[errorproduct,seterrorproduct]=useState(false);
+  const[error3,seterror3]=useState(false);
+
+
+  
+
+
+  const handleClickOpen4 = () => {
+    setOpen4(true);
+  };
+
+  const handleClose4 = () => {
+    setOpen4(false);
+  };
+
+
+
 
   const data = [
     "Facebook",
@@ -163,6 +164,20 @@ const BioPage2=()=>{
     "TikTok",
     "Pinterest",
   ];
+
+  // let dataredux=createContext();
+
+  //  dataredux={  name : Name,
+  //                     data: data,
+  //                     lstoflinks:listOfLinks,
+  //                     lstofotherlinks: listOfOtherLinks,
+  //                     lstofproducts:productdata,
+  //                     username: username,
+  //                     selectedImage:selectedImage,
+  //                     handleImageChange:handleImageChange(),
+  //                     setSelectedImage:selectedImage,
+  //                     about:About
+  // }
 
   const inputRef = useRef(null);
 
@@ -209,7 +224,6 @@ const BioPage2=()=>{
     setAbout1(About);
     setName1(Name);
   };
-  
 
   const handleUpdateInfo = () => {
     setOpen(false);
@@ -265,10 +279,7 @@ const BioPage2=()=>{
         console.log(response);
 
         if (response.data) {
-          setSelectedImage(
-            "http://192.168.0.108:8080/user/auth/get-user-image/" +
-              response.data
-          );
+          setSelectedImage(response.data``);
         } else {
           setSelectedImage(img);
         }
@@ -301,9 +312,20 @@ const BioPage2=()=>{
         console.log(response);
 
         setproductdata(response.data);
+        setproductname("");
+        setproducturl("");
+        setproductvideo("");
+        seterror3(false);
+       
       })
       .catch((error) => {
         console.log(error);
+        // alert(error.response.data.errorMessage);
+        seterrorproduct(error.response.data.errorMessage);
+
+        seterror3(true);
+        
+       
       });
   };
 
@@ -330,11 +352,16 @@ const BioPage2=()=>{
         setListOfOtherLinks(response.data.listOfOtherLinks);
         setAbout(response.data.bio);
         setproductdata(response.data.listOfProducts);
+
+        
+        setOutline(response.data.outline);
+        setFontColor(response.data.fontColor);
+        setfontfamily(response.data.fontStyle);
+        setSelectedBgColor(response.data.background);
+
+
         if (response.data.image) {
-          setSelectedImage(
-            "http://192.168.0.108:8080/user/auth/get-user-image/" +
-              response.data.image
-          );
+          setSelectedImage(response.data.image);
         } else {
           setSelectedImage(img);
         }
@@ -358,14 +385,14 @@ const BioPage2=()=>{
 
   const addLink = () => {
     if (name.trim() === "" || url.trim() === "") {
-      alert("fill something");
+      alert("Fill something");
+      return;
     }
+
     const token = localStorage.getItem("token");
 
     const newLink = { name, url };
     setLinkss([...links, newLink]);
-    setName("");
-    setUrl("");
 
     axios
       .post(
@@ -381,9 +408,22 @@ const BioPage2=()=>{
       .then((response) => {
         console.log(response);
         setListOfOtherLinks(response.data);
+        setName(""); // Reset the name input field
+        setUrl(""); // Reset the url input field
+        seterror(false);
+        
       })
       .catch((error) => {
         console.log(error);
+        // alert(error.response.data.errorMessage)
+
+        seterrorother(error.response.data.errorMessage);
+        
+        
+
+        
+          seterror(true);
+              
       });
   };
 
@@ -436,12 +476,16 @@ const BioPage2=()=>{
   const deleteProduct = (product) => {
     const token = localStorage.getItem("token");
     axios
-      .post("http://192.168.0.108:8080/user/delete-product", product, {
-        headers: {
-          "content-type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      })
+      .post(
+       "http://192.168.0.108:8080/user/delete-product",
+        product,
+        {
+          headers: {
+            "content-type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
       .then((response) => {
         console.log(response);
         setproductdata(response.data);
@@ -459,7 +503,7 @@ const BioPage2=()=>{
     setColor(newColor);
   };
 
-   const handleAddButtonClick = (evt) => {
+  const handleAddButtonClick = (evt) => {
     if (selectedSocialMedia && selectedLink) {
       const updatedSocialMedia = {
         name: selectedSocialMedia,
@@ -488,9 +532,17 @@ const BioPage2=()=>{
       .then((response) => {
         console.log(response.data);
         setListOfLinks(response.data);
+        setflag(true);
+        seterror2(false);
+        
       })
+
       .catch((error) => {
         console.log(error);
+        seterrorsocial(error.response.data.errorMessage);
+        
+        seterror2(true);
+     
       });
   };
   const renderSocialMediaIcon = (socialMedia) => {
@@ -553,294 +605,444 @@ const BioPage2=()=>{
     setAnchorElUser(null);
   };
 
-
- 
-
-    return(
-        <> 
-
-<div className="parent">
-<div className="div1"> 
-   <Navbar clickopen={handleClickOpen}  imagechange={handleImageChange}
-   name={Name} about={About}  updateinfo={handleUpdateInfo}
-    signout={signout} setNameValue={setNameValue} setAbout={setAbout} setAbout1={setAbout1} setName1={setName1}
-    about1={about1} name1={name1} username={username}/>
-
-<div className="navbar-bio"  >
-       
-      </div> 
-</div>
-
-
-<div className="div2"  >
-    <div className=" justify-center mx-2 sm:ml-4 "   >
-     <div 
-          className="bg-[#eeeeee] rounded-[13px] justify-between items-center h-full mt-8 "
-          
+  return (
+    <>
+      <div className="parent">
+        <div
+          className="div1"
+          style={{ position: "fixed", right: "0", left: "0" }}
         >
-          <div className="flex justify-center gap-2 p-8">
-            <button
-              type="button"
-              className={` rounded-none h-[78px] w-[219px] border-r-4 border-b-4 border-black p-2 ${
-                activeButton === "social"
-                  ? " bg-blue-600 text-white"
-                  : "bg-zinc-50"
-              }`}
-              onClick={handleSocialLink}
-            >
-              Social Links
-            </button>
+          <Navbar
+            clickopen={handleClickOpen}
+            imagechange={handleImageChange}
+            name={Name}
+            about={About}
+            updateinfo={handleUpdateInfo}
+           
+            setNameValue={setNameValue}
+            setAbout={setAbout}
+            setAbout1={setAbout1}
+            setName1={setName1}
+            about1={about1}
+            name1={name1}
+            
+            selectedImage={selectedImage}
+          />
 
-            <button
-              type="button"
-              className={` rounded-none  h-[78px] w-[219px] border-r-4 border-b-4 border-black p-2 ${
-                activeButton === "other"
-                  ? " bg-blue-600 text-white"
-                  : "bg-zinc-50"
-              }`}
-              onClick={handleOtherLink}
-            >
-              Other Links
-            </button>
-            <button
-              type="button"
-              className={`rounded-none  h-[78px] w-[219px] border-r-4 border-b-4 border-black p-2 ${
-                activeButton === "product"
-                  ? " bg-blue-600 text-white"
-                  : "bg-zinc-50"
-              }`}
-              onClick={handleProductLink}
-            >
-              Product Links
-            </button>
-          </div>
-          <div className="flex justify-center">
-            <Stack spacing={4}>
-              {activeButton === "social" && (
-                <>
-                  <div className="autocomplete" >
-      <Autocomplete
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
-        selectedSocialMedia={inputValue}
-        onInputChange={(event, newInputValue) => {
-          setSelectedSocialMedia(newInputValue);
-        }}
-        id="controllable-states-demo"
-        options={data}
-        
-        renderInput={(params) => <TextField {...params} label="Social Media Name"   className="autocomplete-field"
-        style={{marginTop: "4vh"}}
-         value={data}
-         
-         />}
-      />   </div>
-                  <br />
-                  <Input
-                    className=" w-[240px] mx-14 sm:w-[35vw] h-14 "
-                    htmlSize={4}
-                    variant="filled"
-                    placeholder="   Social Media Link"
-                    onChange={(evt) => setSelectedLink(evt.target.value)}
-                  />
-                  <div className=' flex justify-center w-[40vh] sm:w-[35vw]'>
-                  <button
-                    className=" bg-green-500 w-[14vmax] h-[40px] text-yellow-50 text-lg font-bold rounded-lg mt-2 mb-2" 
-                    onClick={handleAddButtonClick}
-                  >
-                    ADD
-                  </button>
-                  </div>
 
-                  <div className="links-container">
-                    {listOfLinks.map((link, index) => (
-                      <div key={index} className="links-div">
-                        <div
-                          className="label-div"
-                          style={{ marginTop: "1vh", fontWeight: "600" }}
-                        >
-                          <label>{link.name}</label>
-                          <br />
-                          {/* <label>{link.link}</label> */}
-                        </div>
-                        <div
-                          className="delete-div"
-                          onClick={() => deleteLink(link.name, link.link)}
-                        >
-                          X
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </>
-              )}
+<div className=" sm:w-[51%]" style={{ display: error === true ? 'block' : 'none' }}>
+  {error && (
+    <Alert severity="error" action={ <IconButton
+      aria-label="close"
+      color="inherit"
+      size="small"
+      onClick={() => {
+        seterror(false)
+      }}
+    >
+      <CloseIcon fontSize="inherit" />
+    </IconButton>}>{errorother}</Alert>
+  )}
+</div>
 
-              {activeButton === "other" && (
-                <>
-                  <Input
-                    className=" w-[240px] mx-14 sm:w-[35vw] h-14"
-                    htmlSize={4}
-                    variant="filled"
-                    placeholder="   Other Media Platform"
-                    onChange={handleNameChange}
-                  />
-                  <br />
-                  <Input
-                    className=" w-[240px] mx-14 sm:w-[35vw] h-14 "
-                    htmlSize={4}
-                    variant="filled"
-                    placeholder="   Other Link"
-                    onChange={handleUrlChange}
-                  />
-                   <div className=' flex justify-center w-[40vh] sm:w-[35vw]'>
-                  <button
-                    className=" bg-green-500 w-[14vmax] h-[40px] text-yellow-50 text-lg font-bold rounded-lg  mt-2 mb-2 "
-                    onClick={addLink}
-                  >
-                    ADD
-                  </button>
-                  </div>
+<div className=" sm:w-[51%]" style={{ display: error2 === true ? 'block' : 'none' }}>
+  {error2 && (
+    <Alert severity="error" action={ <IconButton
+      aria-label="close"
+      color="inherit"
+      size="small"
+      onClick={() => {
+        seterror2(false)
+      }}
+    >
+      <CloseIcon fontSize="inherit" />
+    </IconButton>}>{errorsocial}</Alert>
+  )}
+</div>
 
-                  <div className="links-container">
-                    {listOfOtherLinks.map((link, index) => (
-                      <div key={index} className="links-div">
-                        <div className="label-div">
-                          <label
-                            style={{
-                              fontWeight: "600",
-                              marginTop: "1vh",
-                              fontFamily: "Roboto",
-                              color: "#353535",
-                            }}
-                          >
-                            {link.name}
-                          </label>
-                          <br />
-                          {/* <label>{link.url}</label> */}
-                        </div>
-                        <div
-                          className="delete-div"
-                          onClick={() => deleteotherLink(link.name, link.url)}
-                        >
-                          X
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </>
-              )}
 
-              {activeButton === "product" && (
-                <>
-                  <Input
-                    className=" w-[240px] mx-14 sm:w-[35vw] h-14 "
-                    htmlSize={4}
-                    variant="filled"
-                    placeholder="   Product Platform"
-                    onChange={(evt) =>
-                      setproductname(evt.target.value)}
-                  />
-                  <br />
-                  <Input
-                    className="w-[240px] mx-14 sm:w-[35vw] h-14 "
-                    htmlSize={4}
-                    variant="filled"
-                    placeholder="   Product URL"
-                    o
-                    onChange={(evt) => setproducturl(evt.target.value)}
-                  /> <br />
+<div className=" sm:w-[51%]" style={{ display: error3 === true ? 'block' : 'none' }}>
+  {error3 && (
+    <Alert severity="error" action={ <IconButton
+      aria-label="close"
+      color="inherit"
+      size="small"
+      onClick={() => {
+        seterror3(false)
+      }}
+    >
+      <CloseIcon fontSize="inherit" />
+    </IconButton>}>{errorproduct}</Alert>
+  )}
+</div>
 
-                  <Input
-                    className="w-[240px] mx-14 sm:w-[35vw] h-14 "
-                    htmlSize={4}
-                    variant="filled"
-                    placeholder="   Product video url"
-                    onChange={(evt) => setproductvideo(evt.target.value)}
-                  /> <br />
 
-                  <input type="file" name="productimage" id="" style={{marginLeft:'7.7vw'}} 
-                   onChange={handleproduct}  />
-                  <div className=' flex  justify-center w-[40vh] sm:w-[35vw]'>
-                  <button
-                    className=" bg-green-500 w-[14vmax] h-[40px] text-yellow-50 text-lg font-bold rounded-lg  mt-2 mb-2"
-                    onClick={addproductlink}
-                  >
-                    ADD
-                  </button>
-                  </div>
 
-                  <div className="links-container">
-                    {productdata.map((product, index) => (
-                      <div key={index} className="links-div">
-                        <div className="label-div">
-                          <label
-                            style={{
-                              fontWeight: "600",
-                              marginTop: "1vh",
-                              fontFamily: "Roboto",
-                              color: "#353535",
-                            }}
-                          >
-                            {product.productName}
-                          </label>
-                          <br />
-                          {/* <label>{link.url}</label> */}
-                        </div>
-                        <div
-                          className="delete-div"
-                          onClick={() => deleteProduct(product)}
-                        >
-                          X
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </>
-              )}
-          
-            </Stack>
 
-          </div>
-       
-          <br />
-          <div className="flex justify-center"></div>
         </div>
-        <div className=' ml-[33vw] mt-[2vh] block sm:hidden'>
-        <Fab variant="extended">
-            <RemoveRedEyeIcon/>
+            
+
+        <div className="div2">
+          {/* <div className=" ml-[40vw]  block sm:hidden">
+            <Fab variant="extended">
+              <RemoveRedEyeIcon />
               Preview
-      </Fab>
-      </div>
-     </div>
-     
-     <div className="div2-second">
-         
-         
-         <PhoneUI name={Name} data={data} lstoflinks={listOfLinks} 
-         lstofotherlinks={listOfOtherLinks}
-         lstofproducts={productdata} username={username}
-          selectedImage={selectedImage} handleImageChange={handleImageChange} setSelectedImage={setSelectedImage}
-         />  </div>
-        
-       
-     
-
-     
-
-</div>
-
-
-
-</div>
-
-      
-     
-
+            </Fab>
+          </div> */}
           
-        
-        </>
-    );
-}
+          <div className="div2-first mt-16 ">
+            
+            <div className=" justify-center mx-2 sm:ml-4  ">
+              
+              <div
+                className="bg-[#eeeeee] rounded-[13px] justify-between items-center h-full min-h-[620px] sm:min-h-[600px] mt-8 sm:ml-8 top-[55px] "
+                style={{ backgroundColor: "#83c5be" }}
+              >
+                <div className="flex justify-center gap-2 p-8">
+                  <button
+                    type="button"
+                    className={` rounded-[8px] h-[78px] w-[219px] border-r-4   border-b-4 border-black p-2 ${
+                      activeButton === "social"
+                        ? " bg-[#006d77] text-white"
+                        : "bg-zinc-50"
+                    }`}
+                    onClick={handleSocialLink}
+                  >
+                    Social Links
+                  </button>
+
+                  <button
+                    type="button"
+                    className={` rounded-[8px]  h-[78px] w-[219px] border-r-4 border-b-4 border-black p-2 ${
+                      activeButton === "other"
+                        ? " bg-[#006d77] text-white"
+                        : "bg-zinc-50"
+                    }`}
+                    onClick={handleOtherLink}
+                  >
+                    Other Links
+                  </button>
+                  <button
+                    type="button"
+                    className={`rounded-[8px]  h-[78px] w-[219px] border-r-4 border-b-4 border-black p-2 ${
+                      activeButton === "product"
+                        ? "bg-[#006d77] text-white"
+                        : "bg-zinc-50"
+                    }`}
+                    onClick={handleProductLink}
+                  >
+                    Product Links
+                  </button>
+                </div>
+                <div className="flex justify-center">
+                  <Stack spacing={4}>
+                    {activeButton === "social" && (
+                      <>
+                        <div className="autocomplete">
+                          <Autocomplete
+                            value={value}
+                            onChange={(event, newValue) => {
+                              setValue(newValue);
+                            }}
+                            selectedSocialMedia={inputValue}
+                            onInputChange={(event, newInputValue) => {
+                              setSelectedSocialMedia(newInputValue);
+                            }}
+                            id="controllable-states-demo"
+                            options={data}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                label="Social Media Name"
+                                className=" w-[240px] mx-14 sm:w-[35vw] h-14 bg-white rounded-[8px]"
+                                variant="filled"
+                                value={data}
+                              />
+                            )}
+                          />
+                        </div>
+                        <br />
+                        <Input
+                          className=" w-[240px] mx-14 sm:w-[35vw] h-14 rounded-[8px] "
+                          htmlSize={4}
+                          variant="filled"
+                          placeholder="   Social Media Link"
+                          value={selectedLink}
+                          onChange={(evt) => setSelectedLink(evt.target.value)}
+                        />
+                        <div className=" flex justify-center w-[40vh] sm:w-[35vw]">
+                          <button
+                            className=" bg-green-500 w-[14vmax] h-[40px]  rounded-lg mt-2 mb-2"
+                            onClick={handleAddButtonClick}
+                          >
+                            <BasicModal name="Add Link" />
+                          </button>
+                        </div>
+
+                        <div className="links-container">
+                          {listOfLinks.map((link, index) => (
+                            <div key={index} className="links-div">
+                              <div
+                                className="label-div"
+                                style={{
+                                  marginTop: "1vh",
+                                  fontWeight: "600",
+                                  display: "flex",
+                                  alignItems: "baseline",
+                                  justifyContent: "space-between",
+                                }}
+                              >
+                                <label style={{ fontSize: "2vh" }}>
+                                  {renderSocialMediaIcon(link.name)}
+                                </label>
+                                <label>{link.name}</label>
+                                <br />
+                                {/* <label>{link.link}</label> */}
+                              </div>
+                              <div
+                                className="delete-div"
+                                onClick={() => deleteLink(link.name, link.link)}
+                              >
+                                X
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    )}
+
+                    {activeButton === "other" && (
+                      <>
+                        <Input
+                          className="rounded-[8px] w-[240px] mx-14 sm:w-[35vw] h-14"
+                          htmlSize={4}
+                          variant="filled"
+                          placeholder="   Other Media Platform"
+                          onChange={handleNameChange}
+                          value={name}
+                        />
+                        <br />
+                        <Input
+                          className="rounded-[8px] w-[240px] mx-14 sm:w-[35vw] h-14 "
+                          htmlSize={4}
+                          variant="filled"
+                          placeholder="   Other Link"
+                          value={url}
+                          onChange={handleUrlChange}
+                        />
+                        <div className=" flex justify-center w-[40vh] sm:w-[35vw]">
+                          <button
+                            className=" bg-green-500 w-[14vmax] h-[40px] text-yellow-50 text-lg font-bold rounded-lg  mt-2 mb-2 "
+                            onClick={addLink}
+                          >
+                            <BasicModal name="Add Link" />
+                          </button>
+                        </div>
+
+                        <div className="links-container">
+                          {listOfOtherLinks.map((link, index) => (
+                            <div key={index} className="links-div">
+                              <div className="label-div" style={{display:'flex',justifyContent:'space-between'}}>
+                                <label > <LinkIcon/></label>
+                                <label
+                                  style={{
+                                    fontWeight: "600",
+                                    marginTop: "1vh",
+                                    fontFamily: "Roboto",
+                                    color: "#353535",
+                                  }}
+                                >
+                                  {link.name}
+                                </label>
+                                <br />
+                                {/* <label>{link.url}</label> */}
+                              </div>
+                              <div
+                                className="delete-div"
+                                onClick={() =>
+                                  deleteotherLink(link.name, link.url)
+                                }
+                              >
+                                X
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                 
+                      </>
+                    )}
+
+                    {activeButton === "product" && (
+                      <>
+                        <Input
+                          className="rounded-[8px] w-[240px] mx-14 sm:w-[35vw] h-14 "
+                          htmlSize={4}
+                          variant="filled"
+                          value={productname}
+                          placeholder="   Product Platform"
+                          onChange={(evt) => setproductname(evt.target.value)}
+                        />
+                        <br />
+                        <Input
+                          className="rounded-[8px] w-[240px] mx-14 sm:w-[35vw] h-14 "
+                          htmlSize={4}
+                          variant="filled"
+                          placeholder="   Product URL"
+                          value={producturl}
+                          onChange={(evt) => setproducturl(evt.target.value)}
+                        />
+                        <br />
+                        <Input
+                          className="rounded-[8px] w-[240px] mx-14 sm:w-[35vw] h-14 "
+                          htmlSize={4}
+                          variant="filled"
+                          placeholder="   Product video url"
+                          value={productvideo}
+                          onChange={(evt) => setproductvideo(evt.target.value)}
+                        />
+                        <br />
+                        <input
+                          type="file"
+                          name="productimage"
+                          id=""
+                          style={{ marginLeft: "7.7vw" }}
+                          onChange={handleproduct}
+                        />
+                        <div className=" flex  justify-center w-[40vh] sm:w-[35vw]">
+                          <button
+                            className=" bg-green-500 w-[14vmax] h-[40px] text-yellow-50 text-lg font-bold rounded-lg  mt-2 mb-2"
+                            onClick={addproductlink}
+                          >
+                            <BasicModal name="Add Link" />
+                          </button>
+                        </div>
+                        <div className="links-container">
+                          {productdata.map((product, index) => (
+                            <div key={index} className="links-div">
+                              <div className="label-div" style={{display:'flex',justifyContent:'space-between'}}>
+                                <label > <ShoppingCartOutlinedIcon/></label>
+                                <label
+                                  style={{
+                                    fontWeight: "600",
+                                    marginTop: "1vh",
+                                    fontFamily: "Roboto",
+                                    color: "#353535",
+                                  }}
+                                >
+                                  {product.productName}
+                                </label>
+                                <br />
+                                {/* <label>{link.url}</label> */}
+                              </div>
+                              <div
+                                className="delete-div"
+                                onClick={() => deleteProduct(product)}
+                              >
+                                X
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </Stack>
+                </div>
+           
+
+
+                <br />
+                <div className="justify-center flex sm:hidden"  >
+                  <Chip
+                    icon={<VisibilityIcon />}
+                    label="Preview"
+                    onClick={handleClickOpen4}
+                    variant="outlined"
+                    style={{ border: "2px solid black", fontWeight: "bolder",marginBottom:'2vh' }}
+                  />
+                  <Dialog
+                    fullScreen
+                    open={open4}
+                    onClose={handleClose4}
+                    TransitionComponent={Transition}
+                  >
+                    <AppBar sx={{ position: "relative" }}
+                    style={{backgroundColor:'#006d77'}}>
+                      <Toolbar>
+                        <IconButton
+                          edge="start"
+                          color="inherit"
+                          onClick={handleClose4}
+                          aria-label="close"
+                        >
+                          <CloseIcon />
+                        </IconButton>
+                        <Typography
+                          sx={{ ml: 2, flex: 1 }}
+                          variant="h6"
+                          component="div"
+                        >
+                          Preview
+                        </Typography>
+                       
+                      </Toolbar>
+                    </AppBar>
+                    <div style={{ marginRight: "50vw", position: "relative" }}>
+                      <PhoneUI
+                        name={Name}
+                        lstoflinks={listOfLinks}
+                        lstofotherlinks={listOfOtherLinks}
+                        lstofproducts={productdata}
+                        username={username}
+                        selectedImage={selectedImage}
+                        handleImageChange={handleImageChange}
+                        about={About}
+                        bgColor={selectedBgColor} 
+                        fontColor={fontColor}
+                        fontfamily={fontfamily}
+                        outline={outline}
+                      />{" "}
+                    </div>
+                  </Dialog>
+
+                  <div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="div2-second"
+            style={{
+              justifyContent: "center",
+              position: "fixed",
+              right: "20px",
+              top: "45px",
+              zIndex:'0'
+            }}
+          >
+            {/* <dataredux.Provider value={dataredux}>          */}
+            <PhoneUI
+              name={Name}
+              data={data}
+              lstoflinks={listOfLinks}
+              lstofotherlinks={listOfOtherLinks}
+              lstofproducts={productdata}
+              username={username}
+              selectedImage={selectedImage}
+              handleImageChange={handleImageChange}
+              setSelectedImage={setSelectedImage}
+              about={About}
+              bgColor={selectedBgColor} 
+              fontColor={fontColor}
+              fontfamily={fontfamily}
+              outline={outline}
+            />
+
+            {/* </dataredux.Provider> */}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
 export default BioPage2;

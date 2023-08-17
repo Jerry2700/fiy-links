@@ -48,12 +48,16 @@ const Mainlogin=()=>{
         .then( (response) => {
             console.log(response.status);
             console.log(response.data);
+
+             
+
              navigate("/login");
           }
         )
         .catch((error) => {
           //error code 400, 409
           console.log(error);
+          alert(error)
           if(error.response.status == 409) {
             alert(error.response.data.errorMessage);
             console.log(error.reponse);
@@ -62,7 +66,7 @@ const Mainlogin=()=>{
             
             let fieldError = error.response.data;
             alert(JSON.stringify(fieldError));
-            console.log();
+           
     
           }
           
@@ -173,9 +177,9 @@ const Mainlogin=()=>{
                   <div className="modal-buttons">
                   
                     <button className="input-button" type="submit" onClick={handleCreateAccount}>
-                    <BasicModal className="loader" style={{display: `${show? 'block' : 'none'}`}}/> 
+                    <BasicModal name="Registration"/> 
 
-                      Registration
+                      
                     </button>
                   </div>
                 </form>

@@ -1,9 +1,9 @@
 .box {
   background-color: transparent;
   display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
-  margin-left: 20px;
+  justify-content: center;
+  margin-top: 50px;
+  margin-left: 200px;
   height: 100%;
 }
 
@@ -11,7 +11,7 @@
 .box .overlap-2 {
   padding: 4px 2px;
   height: 585px;
-  position: relative;
+  
   width: 357px;
 }
 
@@ -29,7 +29,7 @@
   justify-content: space-around;
   left: 0;
   overflow: hidden;
-  padding: 56px 24px 24px;
+  padding: 10px 24px 24px;
   top: 0;
   width: 343px;
 }
@@ -38,7 +38,7 @@
   height: 40px;
   left: 24px;
   mix-blend-mode: luminosity;
-  position: absolute;
+ 
   top: 17px;
   width: 295px;
 }
@@ -48,7 +48,7 @@
   align-self: stretch;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 22px;
   height: 650px;
   position: relative;
   width: 100%;
@@ -67,7 +67,7 @@
 .box .PFP {
   height: 100px;
   left: 7px;
-  position: absolute;
+  
   top: -12px;
   width: 100px;
 }
@@ -79,7 +79,7 @@
   gap: 8px;
   justify-content: center;
   left: 142px;
-  position: absolute;
+  
   top: 13px;
   width: 172px;
 }
@@ -110,7 +110,7 @@
 .box .badge-user-normal {
   height: 16px;
   left: 172px;
-  position: absolute;
+ 
   top: -12px;
   width: 16px;
 }
@@ -119,7 +119,7 @@
   height: 35px;
   left: 139px;
   mix-blend-mode: luminosity;
-  position: absolute;
+  
   top: 36px;
   width: 176px;
 }
@@ -140,7 +140,7 @@
   left: 91px;
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
+  
   top: 52px;
   white-space: nowrap;
 }
@@ -158,7 +158,7 @@
   mix-blend-mode: multiply;
   overflow: hidden;
   padding: 8px;
-  position: absolute;
+ 
   top: 0px;
   width: 295px;
 }
@@ -170,7 +170,6 @@
   font-weight: 500;
   letter-spacing: 0;
   line-height: normal;
-  position: relative;
   white-space: nowrap;
   width: max-content;
 }
@@ -178,7 +177,7 @@
 .box .thumbnail {
   height: 30px;
   left: 303px;
-  position: absolute;
+
   top: 8px;
   width: 33px;
 }

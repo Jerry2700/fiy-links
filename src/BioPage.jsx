@@ -241,7 +241,7 @@ function Tabs() {
 
         if (response.data) {
           setSelectedImage(
-            "http://192.168.0.108:8080/user/auth/get-user-image/" +
+           "http://192.168.0.108:8080/user/auth/get-user-image/" +
               response.data
           );
         } else {
@@ -307,7 +307,7 @@ function Tabs() {
         setproductdata(response.data.listOfProducts);
         if (response.data.image) {
           setSelectedImage(
-            "http://192.168.0.108:8080/user/auth/get-user-image/" +
+           "http://192.168.0.108:8080/user/auth/get-user-image/" +
               response.data.image
           );
         } else {
@@ -344,7 +344,7 @@ function Tabs() {
 
     axios
       .post(
-        "http://192.168.0.108:8080/user/add-other-link",
+       "http://192.168.0.108:8080/user/add-other-link",
         { name: name, url: url },
         {
           headers: {
@@ -367,7 +367,7 @@ function Tabs() {
 
     axios
       .post(
-        "http://192.168.0.108:8080/user/delete-link",
+       "http://192.168.0.108:8080/user/delete-link",
         { name: name, link: link },
         {
           headers: {
@@ -390,7 +390,7 @@ function Tabs() {
 
     axios
       .post(
-        "http://192.168.0.108:8080/user/delete-other-link",
+       "http://192.168.0.108:8080/user/delete-other-link",
         { name: name, url: url },
         {
           headers: {
@@ -451,7 +451,7 @@ function Tabs() {
 
     axios
       .post(
-        "http://192.168.0.108:8080/user/add-link",
+       "http://192.168.0.108:8080/user/add-link",
         { name: selectedSocialMedia, link: selectedLink },
         {
           headers: {
@@ -547,7 +547,7 @@ function Tabs() {
                   onClick={handlesubmit}
                 >
                   Link
-                </Button>{" "}
+                </Button>
               </span>
 
               <span className="template" style={{ marginRight: "1vw" }}>
@@ -1040,7 +1040,7 @@ function Tabs() {
                     component="img"
                     image={
                       product.productImage
-                        ? "http://192.168.0.108:8080/user/auth/get-product-image/" +
+                        ?"http://192.168.0.108:8080/user/auth/get-product-image/" +
                           product.productImage
                         : img2
                     }

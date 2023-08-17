@@ -12,7 +12,9 @@ import Analytics from "./Analytics.jsx";
 import Mainlogin from "./Mainlogin";
 import Mainlogin2 from "./Mainlogin2";
 import Preview from "./Previewphone.jsx";
-import Page_1 from './Apperance/Apperance1.jsx';
+import Payment from "./Payment.jsx";
+import Page_1 from "./Apperance1.jsx";
+import Api from "./Api.jsx";
 
 
 const App=()=>{
@@ -23,6 +25,8 @@ const App=()=>{
 
          <BrowserRouter>
       <Routes>
+      <Route path="/Api" element={<Api/>}></Route>
+
        {/* <Route path="/admin" element={<Maindiv/>}></Route> */}
        {/* <Route path="radhe" element={ <Admin/>}></Route> */}
        {/* <Route path="/registration" element={<Username/>}></Route> */}
@@ -31,13 +35,19 @@ const App=()=>{
        <Route path="/signup" element={<Mainlogin/>}></Route>
        <Route path="/login" element={<Mainlogin2/>}></Route>
        <Route path="/radhe" element={<BioPage2/>}></Route>
-       <Route path="/reset" element={<Maindiv/>}></Route>
-
-
-       <Route path="/biopage" element={<BioPage/>}></Route>
+       {/* <Route path="/reset" element={<Maindiv/>}></Route> */}
+       <Route path="/apperance" element={<Page_1/>}></Route>
+       
        <Route path="/anaytics" element={<Analytics/>}></Route>
        <Route path="/kk" element={<Preview/>}></Route>
-       <Route path="/apperance" element={<Page_1/>}></Route>
+       <Route path="/Payment" element={<Payment/>}></Route>
+       <Route path="/biopage" element={<BioPage/>}></Route>
+      
+
+
+
+
+
 
 
 

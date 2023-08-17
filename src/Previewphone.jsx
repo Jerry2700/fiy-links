@@ -61,7 +61,7 @@ const Dp = () => {
   useEffect(() => {
     axios
       .get(
-        "http://192.168.0.108:8080/user/auth/get-user-details?username=" + fname
+       "http://192.168.0.108:8080/user/auth/get-user-details?username=" + fname
       )
       .then((response) => {
         console.log(response);

@@ -7,6 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+ import img2 from "../public/socialmedia.jpg";
 
 import {
   FaFacebook,
@@ -43,10 +44,13 @@ const Dp = () => {
   const [Image, setImage] = useState("");
   const [bio, setbio] = useState("");
 
-  const [producturl, setproducturl] = useState("");
-  const [productname, setproductname] = useState("");
-  const [productvideo, setproductvideo] = useState("");
-  const [productimage, setproductimage] = useState();
+  const [outline, setOutline] = useState("");
+  const [fontColor, setFontColor] = useState("black");
+  const [fontfamily, setfontfamily] = useState("");
+  const [selectedBgColor, setSelectedBgColor] = useState("#fffff");
+
+
+
   const [productdata, setproductdata] = useState([]);
   const [open, setOpen] = React.useState(false);
 
@@ -61,20 +65,28 @@ const Dp = () => {
   useEffect(() => {
     axios
       .get(
-        "http://192.168.0.108:8080/user/auth/get-user-details?username=" + fname
+       "http://192.168.0.108:8080/user/auth/get-user-details?username=" + fname
       )
       .then((response) => {
         console.log(response);
-        console.log(response.data);
+      
         setname(response.data.name);
         setusername(response.data.username);
         setlistOflinks(response.data.listOfLinks);
         setlistOfotherlinks(response.data.listOfOtherLinks);
         setproductdata(response.data.listOfProducts);
+
+        setOutline(response.data.outline);
+        setFontColor(response.data.fontColor);
+        setfontfamily(response.data.fontStyle);
+        setSelectedBgColor(response.data.background);
+       
+
+
         setbio(response.data.bio);
         if (response.data.image) {
           setImage(
-            "http://192.168.0.108:8080/user/auth/get-user-image/" +
+            
               response.data.image
           );
         } else {
@@ -171,15 +183,14 @@ const Dp = () => {
   return (
     <>
       <div className="backgrounddp">
-        <div class="background" style={{ height: "100%" }}></div>
+        <div className="background" style={{ height: "100%",backgroundColor: selectedBgColor }}></div>
       </div>
 
       <div
         className="main-dp2"
         style={{
-          background: "rgb(2,48,71)",
-          background:
-            "linear-gradient(143deg, rgba(2,48,71,1) 0%, rgba(33,158,188,1) 35%, rgba(142,202,230,1) 69%)",
+          
+        
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -200,10 +211,10 @@ const Dp = () => {
             borderRadius: "2%",
             background: "rgba(227, 227, 227, 0.48)",
 
-            boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+            // boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
             backdropFilter: "blur(11.4px)",
             WebkitBackdropFilter: "blur(11.4px)",
-            border: "1px solid rgba(255, 255, 255, 0.25)",
+            // border: "1px solid rgba(255, 255, 255, 0.25)",
           }}
         >
           <div className="basic-info-dp">
@@ -211,24 +222,24 @@ const Dp = () => {
               <img
                 src={Image}
                 alt="dp"
-                height={120}
+               
                 width={120}
-                style={{ borderRadius: "50%"}}
+                style={{ borderRadius: "50%",height:"120px"}}
               />
             </div>
 
             <div className="nameandicons">
-              <h1 className="username-dp"> @{username}</h1>
+              <h1 className="username-dp" style={{color:fontColor,fontWeight:'bolder',fontSize:'6vh'}}> @{username}</h1>
 
               <div className="social-container-dp">
                 {listoflinks.map((link) => (
-                  <a
+                  <a 
                     className="social-icon-dp"
                     key={link.index} rel="noreferrer"
                     target="_blank"
                     href={link.link}
                     onClick={() => handleupdate(link)}
-                    style={{margin:'0',padding:'0',fontSize:'3vh'}}
+                    style={{margin:'0',padding:'0',fontSize:'3vh',color: fontColor}}
                    
                   >
                     {renderSocialMediaIcon(link.name)}
@@ -236,29 +247,33 @@ const Dp = () => {
                 ))}
               </div>
             </div>
+            
           </div>
+          <div className="bio-lastpage" style={{display:'flex',justifyContent:'center',margin:'auto',wordBreak:'break-word',textAlign:'center',marginBottom:'1vh'}}>
+              {bio}
+            </div>
 
           <div className="card-div-dp">
             {listofotherlinks.map((link, index) => (
               <div key={index}>
-                <div className="card-bar-dp">
-                  <a
+                <div className="card-bar-dp" >
+                  <a  id={outline}  
                     onClick={() => handleupdateotherlink(link)}
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="link-card-dp"
                     style={{
-                      fontWeight: "600",
+                      backgroundColor:selectedBgColor,
 
                       fontFamily: "Roboto",
-                      color: "#353535",
+                      
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       fontSize: "3vh",
                       fontWeight: "bold",
-                      color: "white",
+                      color: fontColor,
                       flexWrap: "wrap",
                     }}
                   >
@@ -267,9 +282,10 @@ const Dp = () => {
                 </div>
               </div>
             ))}
+           
           </div>
 
-          <div className="product-card" style={{display:'flex',flexDirection:'row',justifyContent:"space-evenly",marginBottom:'1vh'}}>
+          <div className="product-card"  >
             {productdata.map((link, index) => (
               <div
                 key={index}
@@ -282,16 +298,16 @@ const Dp = () => {
                   onClick={() => handleupdateproduct(link)}
                 >
                   <div className="product-image">
-                    <img
+                    <img style={{height:'10rem'}}
                       src={
                         link.productImage
-                          ? "http://192.168.0.108:8080/user/auth/get-product-image/" +
+                          ?
                             link.productImage
-                          : "dsad"
+                          : img2
                       }
                       className="card-img-top"
                       alt="cant loaded"
-                    />{" "}
+                    />
                   </div>
                 </a>
 
@@ -313,17 +329,17 @@ const Dp = () => {
                     <Button onClick={handleClickOpen}>
                       <GoVideo />
                     </Button>
-                    <Dialog
+                    <Dialog 
                       open={open}
                       onClose={handleClose}
                       aria-labelledby="alert-dialog-title"
                       aria-describedby="alert-dialog-description"
                     >
                       <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                          <iframe
+                        <DialogContentText id="alert-dialog-description" >
+                          <iframe id="iframe"
                             src={link.productVideo}
-                            style={{ height: "50vh", width: "30vw" }}
+                            allowFullScreen
                           ></iframe>
                         </DialogContentText>
                       </DialogContent>

@@ -5,6 +5,8 @@ import axios from "axios";
 import {  Routes, Route, Link,useNavigate } from "react-router-dom";
 import BasicModal from "./Loader";
 import { useState } from "react";
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 
 const Mainlogin2=()=>{
@@ -41,10 +43,14 @@ const Mainlogin2=()=>{
     const receivedToken = response.data.token;
     localStorage.setItem('token', receivedToken); 
     // alert(`Logged in successfully as ${username}`);
+    
    navigate('/radhe');
+   
   })
   .catch((error) => {
     console.log(error);
+    console.log("error")
+    alert(error);
   
   })
 
@@ -104,9 +110,9 @@ const Mainlogin2=()=>{
                
                 <button className="input-button" type="submit" onClick={handlelogin} >
                  
-                  <BasicModal className="loader" style={{display: `${show? 'block' : 'none'}`}}/> 
+                  <BasicModal name="Login"/> 
                   
-                  Login
+                  
                 </button>
               </div>
             </form>

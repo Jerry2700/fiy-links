@@ -19,7 +19,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import axios from 'axios';
 import BasicModal from "./Loader";
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 
 
 
@@ -29,13 +30,17 @@ import { useState } from 'react';
 
 
 
-const Navbar = ({imagechange,name,about,signout,setNameValue,setAbout,setAbout1,setName1,about1,name1,username}) => {
+const Navbar = ({imagechange,name,about,setNameValue,setAbout,setAbout1,setName1,about1,name1,selectedImage}) => {
   
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [show,setshow]=useState(false);
+  const [selectedimage, setSelectedImage] = useState(null);
+  const [username, setusername] = useState(null);
+  const[plan,setplan]=useState('');
+
 
 
   const handleClickOpen = () => {
@@ -49,6 +54,51 @@ const Navbar = ({imagechange,name,about,signout,setNameValue,setAbout,setAbout1,
     setOpen(false);
     
   };
+  
+
+  useEffect(() => {
+   
+    callGetUserDetails();
+  
+}, []);
+
+const callGetUserDetails =  () => {
+  const token = localStorage.getItem("token");
+
+  axios
+    .get("http://192.168.0.108:8080/user/get-user-info", {
+      headers: {
+        "content-type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+    .then( (response)  => {
+    
+      if (response.data.image) {
+        setSelectedImage(response.data.image);
+      } else {
+        setSelectedImage("image laga ");
+      }
+      console.log(response);
+      console.log("radhe radhe");
+      setusername(response.data.username);
+      setplan(response.data.currentPlan);
+
+
+      
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+
+const signout = () => {
+  localStorage.removeItem("token");
+  navigate("/login");
+};
+
+
 
   const handleUpdateInfo = () => {
     setOpen(false);
@@ -94,6 +144,15 @@ const Navbar = ({imagechange,name,about,signout,setNameValue,setAbout,setAbout1,
   const handleanalytics = () => {
     navigate("/anaytics");
   };
+  const handlepayment=()=>{
+    navigate('/payment');
+  }
+  const handlebacktomain=()=>{
+    navigate('/radhe');
+  }
+  const handleapperance=()=>{
+    navigate('/apperance'); 
+  }
 
   const handlesubmit = () => {
     setshow(true);
@@ -103,8 +162,8 @@ const Navbar = ({imagechange,name,about,signout,setNameValue,setAbout,setAbout1,
 
   
   return (
-    <AppBar position="static" style={{backgroundColor:'#073b4c'}}>
-    <Container maxWidth="xl">
+    <AppBar position="static" style={{backgroundColor:'#006d77',maxWidth:'auto',margin:'0',padding:'0'}}>
+    <Container maxWidth="xl" style={{margin:'0',padding:'0'}}>
       <Toolbar disableGutters>
        
         <Typography
@@ -123,7 +182,7 @@ const Navbar = ({imagechange,name,about,signout,setNameValue,setAbout,setAbout1,
             color:'#80ed99'
           }}
         >
-         FIY-LINK
+          FIY-LINK
         </Typography>
 
         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -163,13 +222,26 @@ const Navbar = ({imagechange,name,about,signout,setNameValue,setAbout,setAbout1,
 
             ))} */}
              <MenuItem  onClick={handleCloseNavMenu}  >
-                <Typography textAlign="center" >Apperance</Typography>
+                <Typography textAlign="center"  onClick={handleapperance}> <b> Apperance </b></Typography>
               </MenuItem>
 
               <MenuItem onClick={handleCloseNavMenu} >
-                <Typography textAlign="center" onClick={handleanalytics} >Analytics</Typography>
+                <Typography textAlign="center" onClick={handleanalytics} > <b> Analytics </b></Typography>
+              </MenuItem>
+
+
+              <MenuItem onClick={handleCloseNavMenu} >
+                <Typography textAlign="center" onClick={handlepayment} > <b> Payment </b></Typography>
+              </MenuItem>
+
+
+              <MenuItem onClick={handleCloseNavMenu} >
+                <Typography textAlign="center" onClick={handlesubmit} > <b> Get Your Link </b></Typography>
               </MenuItem>
               
+              <MenuItem onClick={handleCloseNavMenu} >
+                <Typography textAlign="center" onClick={handlebacktomain} > <b> Back To Main </b></Typography>
+              </MenuItem>
           </Menu>
         </Box>
         <Typography
@@ -203,10 +275,10 @@ const Navbar = ({imagechange,name,about,signout,setNameValue,setAbout,setAbout1,
           ))} */}
             <Button
               
-              onClick={handleCloseNavMenu}
+              onClick={handleapperance}
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
-              Apperance
+             <b> Apperance </b> 
             </Button>
 
 
@@ -215,7 +287,7 @@ const Navbar = ({imagechange,name,about,signout,setNameValue,setAbout,setAbout1,
               sx={{ my: 2, color: 'white', display: 'block' }}
               onClick={handleanalytics}
             >
-              Analytics
+             <b>  Analytics </b>
             </Button>
 
             <Button
@@ -224,15 +296,34 @@ const Navbar = ({imagechange,name,about,signout,setNameValue,setAbout,setAbout1,
               sx={{ my: 2, color: 'white', display: 'block' }}
               onClick={handlesubmit}
             >
-               <BasicModal className="loader" style={{display: `${show? 'block' : 'none'}`}}/>
-              GetYourLink
+               <BasicModal  name="Get Your Link" />
+              
             </Button>
+
+            <Button
+    
+              sx={{ my: 2, color: 'white', display: 'block' }}
+              onClick={handlepayment}
+            >
+             <b>  Payment </b>
+            </Button>
+
+            <Button
+    
+              sx={{ my: 2, color: 'white', display: 'block' }}
+              onClick={handlebacktomain}
+            >
+             <b>  Back to Main </b>
+            </Button>
+
+
         </Box>
 
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} >
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <Avatar alt="Remy Sharp" src={selectedimage} onChange={imagechange}
+              style={{marginRight:'1vw'}}/>
             </IconButton>
           </Tooltip>
           <Menu 
@@ -259,7 +350,7 @@ const Navbar = ({imagechange,name,about,signout,setNameValue,setAbout,setAbout1,
              <MenuItem  onClick={handleCloseUserMenu}>
                 <Typography textAlign="center"  >
                    <span onClick={handleClickOpen} >
-                Edit
+               <b> Edit </b>
             </span>
             <Dialog open={open} onClose={handleClose}>
               <DialogTitle >Edit</DialogTitle>
@@ -289,7 +380,7 @@ const Navbar = ({imagechange,name,about,signout,setNameValue,setAbout,setAbout1,
                   defaultValue={about}
                   type="text"
                   fullWidth
-                  variant="standard"
+                  variant="standard" inputProps={{maxlength:50}}
                   onChange={(evt) => setAbout(evt.target.value)}
                 />
                 
@@ -303,7 +394,11 @@ const Navbar = ({imagechange,name,about,signout,setNameValue,setAbout,setAbout1,
               </MenuItem>
 
               <MenuItem  onClick={handleCloseUserMenu}>
-                <Typography textAlign="center"  onClick={signout}>Log Out</Typography>
+                <Typography textAlign="center"  onClick={signout}> <b> Log Out </b></Typography>
+              </MenuItem>
+
+              <MenuItem  onClick={handleCloseUserMenu}>
+                <Typography textAlign="center" > CURRENT PLAN : <b style={{color:'goldenrod'}}> {plan} </b> <WorkspacePremiumIcon/></Typography>
               </MenuItem>
 
           </Menu>

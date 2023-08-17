@@ -55,9 +55,9 @@ const Analytics=()=>{
   const [listOfOtherLinks,setListOfOtherLinks]=useState([]);
   const [listOfProducts,setproductlist]=useState([]);
   const [open, setOpen] = React.useState(false);
-  const [maxVisits, setMaxVisits] = useState(null);
+  const [analyticsproduct, setanalyticproduct] = useState(null);
   const [analyticList, setAnalyticList] = useState(null);
-  const [totalVisits, setTotalVisits] = useState(0);
+  const [analyticother, setanalyticother] = useState(null);
 
    
                     
@@ -156,7 +156,35 @@ const bull = (
     console.log('radhe2');
     // setMaxVisits(Array);
     console.log(Array);
-    setAnalyticList(Array);
+    setanalyticother(Array);
+    return Array;
+    
+  }
+
+  const getproductDetails =async (list) => {
+    if(list ==null || list.length===0) return;
+
+    const Array = [];
+    let max = list[0];
+    let min = list[0];
+    let total = 0;
+    for(const link of list) {
+      if(link.visited >= max.visited) {
+        max = link;
+      }
+      if(link.visited < min.visited) {
+        min = link;
+      }
+      total += link.visited;
+    }
+
+    Array.push(max);
+    Array.push(min);
+    Array.push(total);
+    console.log('rproduct');
+    // setMaxVisits(Array);
+    console.log(Array);
+    setanalyticproduct(Array);
     return Array;
     
   }
@@ -338,11 +366,16 @@ const bull = (
        
         console.log(response); 
         let x = await response.data.listOfLinks;
-        setAnalytics(response.data);
+        // setAnalytics(response.data);
         setListOfLinks(x);
-        setListOfOtherLinks(response.data.listOfOtherLinks);
-        setproductlist(response.data.listOfProducts);    
+        let y= await response.data.listOfOtherLinks;
+        setListOfOtherLinks(y);
+        let z=await response.data.listOfProducts;
+        setproductlist(z);
+        getproductDetails(z);
+
         getLinksDetails(x);
+        getotherDetails(y);
         
       })
       .catch((error) => {
@@ -350,17 +383,19 @@ const bull = (
       });      
     }
     
+ 
+    
     return(
         <>
         <div className="navbar-analytics">
-          <Navbar/>
+          <Navbar />
           
 
         </div>
               
 
        
-        <div className="container1" >
+        <div className="container1"  >
           
           
        
@@ -390,7 +425,7 @@ const bull = (
         </button>
       </div>
 
-      <div className="content-tabs1" >
+      <div className="content-tabs1"  >
 
         <div
           className={toggleState === 1 ? "content  active-content" : "content" } style={{padding:'auto', position:'relative' , width:'auto'}}
@@ -550,19 +585,16 @@ const bull = (
             <div>  <Card sx={{ minWidth: 275 }} style={{backgroundColor:'#669bbc',color:'white'}}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Fiy-Link
+        {analyticother===null ? 'no data ':  analyticother[0].name }
         </Typography>
         <Typography variant="h5" component="div">
           Most Viewd Link
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
+        {analyticother===null ? 'no data ':  analyticother[0].visited }
+
         </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
+       
       </CardContent>
     
     </Card></div>
@@ -572,7 +604,8 @@ const bull = (
             <div>  <Card sx={{ minWidth: 275 }} style={{backgroundColor:'#8ecae6',color:'white'}}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-        Fiy-Link
+        {analyticother===null ? 'no data ':  analyticother[1].name }
+
         </Typography>
         <Typography variant="h5" component="div">
           Most Clicked Link
@@ -580,11 +613,7 @@ const bull = (
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
           adjective
         </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
+        
       </CardContent>
      
     </Card></div>
@@ -594,19 +623,15 @@ const bull = (
             <div>  <Card sx={{ minWidth: 275 }} style={{backgroundColor:'#219ebc',color:'white'}}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-        Fiy-Link
+        <b> Total Visits On your Account </b>
         </Typography>
         <Typography variant="h5" component="div" >
          Total Link
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
+        {analyticother===null ? 'no data ':  analyticother[2] }
         </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
+        
       </CardContent>
      
     </Card></div>
@@ -672,19 +697,15 @@ const bull = (
             <div>  <Card sx={{ minWidth: 275 }} style={{backgroundColor:'#669bbc',color:'white'}}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Fiy-Link
+        {analyticsproduct===null ? 'no data ':  analyticsproduct[0].productName }
         </Typography>
         <Typography variant="h5" component="div">
           Most Viewd Link
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
+        {analyticsproduct===null ? 'no data ':  analyticsproduct[0].visited }
         </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
+    
       </CardContent>
     
     </Card></div>
@@ -694,19 +715,15 @@ const bull = (
             <div>  <Card sx={{ minWidth: 275 }} style={{backgroundColor:'#8ecae6',color:'white'}}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-        Fiy-Link
+        {analyticsproduct===null ? 'no data ':  analyticsproduct[1].productName }
         </Typography>
         <Typography variant="h5" component="div">
-          Most Clicked Link
+          Least Clicked Link
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
+        {analyticother===null ? 'no data ':  analyticother[1].visited }
         </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
+      
       </CardContent>
      
     </Card></div>
@@ -716,19 +733,15 @@ const bull = (
             <div>  <Card sx={{ minWidth: 275 }} style={{backgroundColor:'#219ebc',color:'white'}}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-        Fiy-Link
+        <b> Total Visits On your Account </b>
         </Typography>
         <Typography variant="h5" component="div" >
          Total Link
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
+        {analyticsproduct===null ? 'no data ':  analyticsproduct[2] }
         </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
+      
       </CardContent>
      
     </Card></div>
